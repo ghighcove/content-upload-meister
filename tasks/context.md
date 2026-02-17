@@ -1,177 +1,168 @@
 # content_upload_meister - Session Context
 
-## Last Updated: 2026-02-16
+## Last Updated: 2026-02-17
 
 ## Current State
 
-**Full automation achieved for both platforms:**
+**SEO automation complete for both platforms. Pipeline integration done. TE article GEO-improved and in Medium draft.**
 
-### Medium (100%)
-- HTML export → GitHub Pages CDN → Medium import: ✅ working end-to-end
-- Images: ✅ CDN pre-upload (GitHub Pages), displays in editor
-- Formatting: ✅ headings, lists, bold, italic, emoji, links all preserved
-- Tags/SEO: ❌ not yet automated (next session)
+### Recently Published Articles (Cross-Project)
 
-### Substack (100% content + images, SEO pending)
-- Content entry (title, subtitle, body): ✅ browser automation working
-- Image upload: ✅ via substack-mcp-plus `upload_image` tool → Substack S3 CDN
-- SEO metadata (meta title, description, tags, section): ❌ not yet automated (next session)
+| Article | Platform | Published | Notes |
+|---------|----------|-----------|-------|
+| Super Bowl Seat article | Unknown | Super Bowl Sunday, Feb 9 2026 | User confirmed published |
+| "The 5-12 Seed Upset Is Overrated" | Substack | Feb 17 2026 | Post 188309673 — march_madness project |
+| TE Market Inefficiency (NFL) | Medium | In draft (not yet live) | Story 5e631a644b94 — needs SEO + publish |
 
-### Authentication
-- **substack-mcp-plus**: Session token stored at `~/.substack-mcp-plus/auth.json`
-  - Token: extracted from live browser session (substack.sid cookie)
-  - Expiry: 30 days from 2026-02-16 (refresh by ~2026-03-18)
-  - Email: ghighcove@gmail.com | Publication: https://glennhighcove.substack.com
-- **GitHub Pages**: https://ghighcove.github.io/content-upload-meister/ (public repo, master branch)
+### Medium SEO (100% automated)
+- `medium_seo_setter.py` — JS injection on submission page
+  - Sets preview title (100 chars), description (140 chars), topics (up to 5)
+  - `build_medium_seo_js()` — builds injectable JS string
+  - `build_medium_seo_from_optimizer(story_id, optimizer_result)` — optimizer integration
+  - Submission URL: `https://medium.com/p/{story_id}/submission?...`
+- Key discoveries from live browser testing:
+  - Dropdown options: 3-strategy fallback (span.ao → role=option → listbox li)
+  - Must use `input.click()` before `nativeInputSetter` to trigger React
+  - Skip topics already added as chips (avoid stale-state failures)
+  - Poll for chip count increase rather than fixed wait
+
+### Substack SEO (100% automated)
+- `substack_seo_setter.py` — direct REST API (no browser)
+  - `set_seo_metadata(draft_id, seo_title, seo_description, slug, tags)`
+  - `set_seo_from_optimizer_output(draft_id, optimizer_result)`
+  - API fields: `search_engine_title`, `search_engine_description`, `postTags`, `draft_slug`
+- Auth fix: bypass `Api.__init__` (cookies_path bug), use `session.cookies.set('substack.sid', token, domain='.substack.com')`
+
+### Medium (85% automated)
+- HTML export -> GitHub Pages CDN -> Medium import: working
+- Images: CDN pre-upload working
+- Tags/SEO: now automated via `medium_seo_setter.py`
+- Scheduling: partial (React date picker still unreliable ~30%)
+
+### Substack (content + images + SEO = ~95%)
+- Content entry: working
+- Image upload: via substack-mcp-plus `upload_image` tool
+- SEO metadata: now automated via `substack_seo_setter.py`
 
 ### 3D Optimization Engine (Phases 1-6 complete)
-- `G:/ai/_shared_tools/publishing/multi_dim_analyzer.py` — Traditional SEO + voice + platform analysis
-- `G:/ai/_shared_tools/publishing/optimization_engine.py` — 5-strategy optimizer (balanced/seo_heavy/geo_heavy/platform_first/voice_preservation)
-- `G:/ai/_shared_tools/publishing/visualizer.py` — Interactive 3D Plotly visualization with Pareto front
-- `G:/ai/content_upload_meister/run_optimization_tests.py` — Test matrix runner (30 cases)
-- **Live visualization**: `visualizations/optimization_3d_20260216_190857.html`
+- `optimization_engine.py` — 5-strategy optimizer
+- `visualizer.py` — 3D Plotly visualization
+- Pipeline integration test confirms: optimizer output -> both SEO setters works
+- **Known gap**: optimizer requires YAML frontmatter to generate title/description/tags
+  - NFL articles use plain markdown headers — optimizer produces garbled output without frontmatter
+  - GEO score (75) and voice profile are reliable even without frontmatter
+  - Fix needed: add YAML frontmatter to NFL article drafts OR add frontmatter extraction to analyzer
+
+---
+
+## Active Work
+
+### TE Article (NFL) — In Progress
+
+**Story ID**: `5e631a644b94`
+**Edit URL**: `https://medium.com/p/5e631a644b94/edit`
+**GitHub Pages**: `https://ghighcove.github.io/nfl-salary-analysis/article/te_market_inefficiency_20260217_1255_ff3269c9.html`
+
+**GEO improvements applied (2026-02-17):**
+- Attribution updated: Claude Sonnet 4.5 → 4.6
+- Finding #3 BLUF fixed: now leads with "7 of top 10 from Rounds 2-3"
+- Entity consistency: "Day 2/Day 1" → "Round 2/Round 1" in conclusion
+
+**SEO values to inject (pending):**
+- Preview title: `Tight End Market Inefficiency: Why Round 2 TEs Are the NFL Draft's Best-Kept Secret`
+- Preview description: `Round 2 NFL TEs deliver +0.582 value vs +0.353 Round 1. 60% bust rate validated across 1,063 player-seasons. Quantitative framework.` (133 chars)
+- Topics: NFL Draft · NFL · Data Analysis · Sports Analytics · Football
+
+**Remaining**: Navigate to submission page, inject SEO JS, publish or schedule
+
+### publish-everywhere Skill — Created
+
+- Location: `C:/Users/ghigh/.claude/skills/publish-everywhere/SKILL.md`
+- Skill ID visible in system as `publish-everywhere`
+- Covers full 4-phase workflow: CDN → Medium import → Medium SEO → Substack SEO
+
+---
+
+## Issues Fixed This Session (Sprint)
+
+1. Dead code removed from `medium_seo_setter.py` (set_medium_seo_via_browser + asyncio import)
+2. `span.ao` selector hardened to 3-strategy fallback
+3. Schema mismatch fixed: both setter integration functions accept `title`/`description` OR `seo_title`/`seo_description`
+4. `SUBSTACK_MCP_PATH` now configurable via env var
+5. Medium scheduling JS improved: uses `nativeInputValueSetter`, scans visible inputs, structured JSON return
+6. `publish-everywhere` skill created
+7. Project `CLAUDE.md` created
+
+---
+
+## Assumptions Checked This Session
+
+| Assumption | Status | Finding |
+|-----------|--------|---------|
+| GEO 97/100 score was accurate | ❌ Inflated | Real GEO from 3D engine = 75. geo_metadata.py is a simpler estimator |
+| 3D optimizer works on NFL articles | ❌ Broken for metadata | Needs YAML frontmatter — NFL articles use plain headers. Voice profile is accurate |
+| SEO description 180 chars was fine | ❌ Wrong | Medium JS enforces 140 chars — was being silently truncated. Fixed to 133 chars |
+| Day 2/Round 2 terminology consistent | ❌ Inconsistent | Conclusion used "Day 2" while rest used "Round 2" — fixed |
+| span.ao selector was stable | ⚠️ Fragile | Minified class, will change on Medium deploys. Now has 3 fallback strategies |
+
+---
+
+## Pending (Next Session)
+
+1. **Finish TE article SEO injection** — open Medium draft, navigate to submission page, inject JS
+2. **Publish TE article** — schedule or immediate
+3. **Optimizer frontmatter gap** — add YAML frontmatter support to NFL article pipeline so 3D optimizer works properly
+4. **Other NFL articles** — Draft ROI, RB Economics, QB Deep Dive — apply same GEO improvements before publishing
+5. **march_madness project** — 5-12 upset article published to Substack; check if it needs Medium publish too
 
 ---
 
 ## Key Design Decisions
 
-### Platform Strategy
-- **Publishing ratio**: 1 Medium : 4-8 Substack (Medium has daily caps)
-- **Primary platform**: Substack for all content
-- **Medium**: Reserved for high-reach articles only
+### Medium SEO approach
+- No public API exists — must use browser automation on submission page
+- Submit URL differs from edit URL: `/p/{id}/submission?redirectUrl=...`
+- `medium_seo_setter.py` returns {submission_url, js} dict — pipeline navigates + injects
+- The JS is stored in `MEDIUM_SEO_JS` constant with `MEDIUM_SEO_CONFIG` placeholder
 
-### 3D Optimization Matrix (CONFIRMED)
-- **Space A** (metadata optimization): Traditional SEO × GEO × Voice Preservation
-- **Space B** (content style, future): Tone × Depth × Data Presentation
-- **6D combined space**: Phase 3 future work, once each space validated independently
-- **Second opinion** (`G:/ai/content-strategy/docs/content-testing-strategy-opinions.md`): Solid and complementary. "Don't build infrastructure until patterns validated" applies to Space B (content style), NOT Space A (metadata — already built).
+### Substack SEO approach
+- Direct REST API via `python-substack` `put_draft(**kwargs)`
+- SEO description: 140 char HARD LIMIT (not 160)
+- Tags via `postTags: [{"name": "tag"}]` format
 
-### substack-mcp-plus Architecture
-- **Package**: v1.0.3 at `C:/Users/ghigh/AppData/Roaming/npm/node_modules/substack-mcp-plus`
-- **venv**: `package_dir/venv/` (has all Python dependencies including mcp 1.26.0)
-- **Auth**: SimpleAuthManager → Fernet-encrypted JSON at `~/.substack-mcp-plus/auth.json`
-- **Token source**: Cookie `substack.sid` extracted from live browser session
-- **Image upload**: `ImageHandler.upload_image(file_path)` → Substack S3 CDN URL
-- **Setup wizard** was fixed for Windows Unicode (emoji → ASCII in `setup_auth.py`)
+### Adapter pattern
+- Adapters prepare/return payloads; orchestrator (pipeline/skill) does browser operations
+- `publish_to_medium()` stores `_medium_seo_payload` in `article_data` for pipeline
+- `publish_to_substack()` reads `draft_id` from `article_data` or `frontmatter`
 
-### GEO Integration
-- `/seo-for-llms` skill integrated as Dimension 2 of the optimizer
-- GEO formula: 7 dimensions (quotability 20%, answer-readiness 20%, semantic structure 15%, unique value 15%, entity clarity 10%, authority signals 10%, information density 10%)
-- Substack SEO description MUST be: 50% keywords + 50% GEO depth signals, HARD 140-char limit
-
----
-
-## Recent Changes (This Session)
-
-**Fixed/Created:**
-- `C:/Users/ghigh/AppData/Roaming/npm/node_modules/substack-mcp-plus/setup_auth.py` — removed emoji for Windows cp1252 compatibility
-- `substack-mcp-plus/store_token.py` — stores cookie programmatically (bypasses wizard)
-- `substack-mcp-plus/auth_magiclink.py` — magic link flow (for future use)
-- `substack-mcp-plus/auth_noninteractive.py` — password flow (for future use)
-- `substack-mcp-plus/test_image_upload.py` — verified image upload WORKS
-- `substack-mcp-plus/get_chrome_password.py` — Chrome password extractor (no Substack pw saved)
-- `G:/ai/_shared_tools/publishing/multi_dim_analyzer.py` — NEW
-- `G:/ai/_shared_tools/publishing/optimization_engine.py` — NEW
-- `G:/ai/_shared_tools/publishing/visualizer.py` — NEW
-- `G:/ai/content_upload_meister/run_optimization_tests.py` — NEW
-- `G:/ai/content_upload_meister/docs/3D_OPTIMIZATION_MATRIX.md` — NEW
-- `G:/ai/content_upload_meister/docs/SEO_AUTOMATION_PLAN.md` — NEW
-- `G:/ai/content_upload_meister/docs/PHASE6_META_ARTICLE.md` — NEW
-- `G:/ai/_shared_tools/publishing/image_uploader.py` — fixed hardcoded 'main' branch bug
-
-**Verified Working:**
-- Substack image upload: `test_image_1.png` → `https://substack-post-media.s3.amazonaws.com/public/images/892fc468-d3de-4ba1-bedb-63e2c12ac73e_800x400.jpeg`
-- Medium article with images: `https://medium.com/p/06b801e2ce3b/edit`
-- GitHub Pages: `https://ghighcove.github.io/content-upload-meister/` (HTTP 200)
-- 3D optimization engine: 10 test cases run, visualization generated
-
----
-
-## Blockers / Open Questions
-
-1. **Substack SEO browser automation**: Settings panel not yet explored/mapped
-   - Need to: navigate to existing draft → click Settings → screenshot field layout → automate
-
-2. **Medium SEO automation**: Tags, description, slug — not yet implemented
-   - Selectors unknown, need browser exploration
-
-3. **substack-mcp-plus token refresh**: Manual refresh needed ~2026-03-18
-   - Future: build auto-refresh reminder into publish workflow
-
-4. **3D optimizer needs real articles**: Test ran on bare test_with_images.md (low scores)
-   - Need March Madness / NFL articles as proper test cases
-   - Phase 6 meta-article is the primary test candidate
-
-5. **Phase 5 integration**: 3D optimizer not yet wired into publish-everywhere workflow
-   - Scaffolding ready but integration point not coded
-
-6. **6D combined matrix (Space A × Space B)**: Future work
-   - Requires Space B (tone/depth/structure) testing first (manual, 2-3 variations)
-
----
-
-## Next Steps (Priority Order)
-
-### Immediate (next session)
-1. **Explore Substack SEO Settings panel** via browser automation
-   - Navigate to draft → Settings → screenshot → document field refs
-   - Implement: meta_title, meta_description, tags, section
-
-2. **Implement Medium SEO automation**
-   - Tags (5 max), description, custom slug
-   - Browser automation via `find` + `computer` tools
-
-3. **Wire optimizer into publish-everywhere workflow**
-   - Call `optimization_engine.py` during Phase 3 of publish
-   - Apply generated metadata to platform after content upload
-
-4. **Write meta-article** ("The AI Content Optimization Paradox")
-   - Outline: `docs/PHASE6_META_ARTICLE.md`
-   - Target: Substack, 2,500-3,500 words
-   - GEO-heavy strategy, technical-accessible hybrid tone
-   - Run through 3D optimizer before publishing
-
-### Soon
-5. **Review unpublished articles** for Phase 6 test cases
-   - Check: G:/ai/march_madness/article/, G:/ai/nfl/, G:/ai/content_upload_meister/test/
-   - Look for YAML `draft: true`
-
-6. **Add 2 more article types** to test matrix (currently 1 of 3)
-   - Tutorial/How-To and Opinion/Commentary
-
-7. **Content style testing (Space B)** — manual first
-   - 2 tone variations (technical vs. accessible) of same article
-   - Publish on Substack, measure for 2 weeks
-
-8. **Substack token refresh automation**
-   - Alert at 7 days before expiry (2026-03-11)
+### Authentication
+- Substack: `SimpleAuthManager.get_token()` decrypts Fernet token from `~/.substack-mcp-plus/auth.json`
+- Token expiry: ~2026-03-18 (30 days from 2026-02-17)
+- Medium: via logged-in Chrome session
 
 ---
 
 ## Environment
 
-- **Platform**: Windows 10, Git Bash
-- **Python**: e:/python/python38-32/ (32-bit) — some package limitations
-- **Node.js**: npm global at `C:/Users/ghigh/AppData/Roaming/npm/`
-- **substack-mcp-plus venv**: `C:/Users/ghigh/AppData/Roaming/npm/node_modules/substack-mcp-plus/venv/`
-  - Activate: `source .../venv/Scripts/activate`
-- **GitHub Pages**: Public repo, master branch, ~60s rebuild after push
-- **Browser tabs**: Medium editor (tab 1112083968), Substack editor (tab 1112083975)
+- Python: Use `C:/Users/ghigh/AppData/Roaming/npm/node_modules/substack-mcp-plus/venv/Scripts/python.exe` for substack tests (needs 3.9+)
+- Browser: Chrome with claude-in-chrome extension
+- GitHub Pages: https://ghighcove.github.io/content-upload-meister/ (for Medium CDN images)
+- Substack token expiry: ~2026-03-18
 
 ---
 
 ## Quick Reference
 
-- **Working dir**: `G:/ai/content_upload_meister`
-- **Git remote**: `https://github.com/ghighcove/content-upload-meister` (public)
-- **GitHub Pages**: `https://ghighcove.github.io/content-upload-meister/`
-- **Shared publishing tools**: `G:/ai/_shared_tools/publishing/`
-- **substack-mcp-plus**: `C:/Users/ghigh/AppData/Roaming/npm/node_modules/substack-mcp-plus/`
-- **Auth file**: `~/.substack-mcp-plus/auth.json` (expires ~2026-03-18)
-- **Test article**: `test/article/test_with_images.md`
-- **Test image**: `test/images/test_image_1.png`
-- **Visualization**: `visualizations/optimization_3d_20260216_190857.html`
-- **Meta-article outline**: `docs/PHASE6_META_ARTICLE.md`
-- **Second opinion doc**: `G:/ai/content-strategy/docs/content-testing-strategy-opinions.md`
-- **3D matrix design**: `docs/3D_OPTIMIZATION_MATRIX.md`
-- **No project CLAUDE.md yet** — worth creating next session
+- Shared tools: `G:/ai/_shared_tools/publishing/`
+  - `medium_seo_setter.py` — Medium SEO via JS injection
+  - `substack_seo_setter.py` — Substack SEO via REST API
+  - `medium_adapter.py` — Medium workflow adapter
+  - `substack_adapter.py` — Substack workflow adapter
+  - `optimization_engine.py` — 3D SEO optimizer
+- Tests: `G:/ai/content_upload_meister/test_pipeline_integration.py`
+- Test draft IDs: Substack=188207668, Medium story=06b801e2ce3b
+- Git repos:
+  - ai-shared-tools: https://github.com/ghighcove/ai-shared-tools
+  - content-upload-meister: https://github.com/ghighcove/content-upload-meister
+  - nfl-salary-analysis: https://github.com/ghighcove/nfl-salary-analysis
+- Working directory: `G:/ai/content_upload_meister`
