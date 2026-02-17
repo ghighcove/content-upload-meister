@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Test Article with Images</title>
+</head>
+<body>
+<h1>Image Upload Test</h1>
+<p>This article tests the <strong>complete image pipeline</strong>:</p>
+<ol>
+<li>Image upload to GitHub Pages CDN</li>
+<li>URL replacement in markdown</li>
+<li>HTML generation with CDN URLs</li>
+<li>Medium and Substack import with images</li>
+</ol>
+<h2>Test Image</h2>
+<p>Here's our test image:</p>
+<p><img alt="Test Image" src="../images/test_image_1.png" /></p>
+<h2>Why This Matters</h2>
+<p>The image pipeline must:</p>
+<ul>
+<li><strong>Upload images</strong> to GitHub Pages automatically</li>
+<li><strong>Generate unique URLs</strong> with timestamp for cache-busting</li>
+<li><strong>Replace local paths</strong> with CDN URLs in the HTML</li>
+<li><strong>Preserve alt text</strong> for accessibility</li>
+</ul>
+<h2>Expected Outcome</h2>
+<p>When you see this on Medium or Substack:</p>
+<p>✅ Image displays correctly<br />
+✅ Image loads from GitHub Pages CDN<br />
+✅ No broken image links<br />
+✅ Alt text preserved</p>
+<h2>Conclusion</h2>
+<p>If the image above is visible, the full automation pipeline works! 🎉</p>
+</body>
+</html>
