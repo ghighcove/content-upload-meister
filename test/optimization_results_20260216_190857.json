@@ -1,0 +1,737 @@
+{
+  "generated": "2026-02-16T19:08:57.252779",
+  "test_cases": 10,
+  "articles": [
+    "Research Analysis"
+  ],
+  "results": {
+    "Research Analysis": {
+      "substack": {
+        "balanced": {
+          "platform": "substack",
+          "strategy": "balanced",
+          "strategy_description": "Equal SEO + GEO weight. Best for general content.",
+          "title": "Test Article with Images",
+          "description": "Automation: technology framework, validated methodology",
+          "tags": [
+            "Automation",
+            "Publishing",
+            "Images"
+          ],
+          "section": "Technology",
+          "scores": {
+            "seo": 56,
+            "geo": 65,
+            "platform_fit": 80,
+            "voice_distance": 10,
+            "combined": 63
+          },
+          "trade_offs": [
+            "GEO prioritized over traditional SEO: 65 vs 56 (ideal for AI citation and research discoverability)"
+          ],
+          "alternatives": [
+            {
+              "description": "Automation, Publishing, Images | technology insights | analysis and predictions",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 61,
+              "variant": "seo_optimized"
+            },
+            {
+              "description": "Automation: methodology, validated",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 61,
+              "variant": "geo_optimized"
+            },
+            {
+              "description": "Testing image upload and CDN integration",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 57,
+              "variant": "voice_preserving"
+            }
+          ]
+        },
+        "seo_heavy": {
+          "platform": "substack",
+          "strategy": "seo_heavy",
+          "strategy_description": "Maximize Google search traffic. Best for timely/news content.",
+          "title": "Test Article with Images",
+          "description": "Automation: technology framework, validated methodology",
+          "tags": [
+            "Automation",
+            "Publishing",
+            "Images"
+          ],
+          "section": "Technology",
+          "scores": {
+            "seo": 56,
+            "geo": 65,
+            "platform_fit": 80,
+            "voice_distance": 10,
+            "combined": 59
+          },
+          "trade_offs": [
+            "GEO prioritized over traditional SEO: 65 vs 56 (ideal for AI citation and research discoverability)"
+          ],
+          "alternatives": [
+            {
+              "description": "Automation, Publishing, Images | technology insights | analysis and predictions",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 58,
+              "variant": "seo_optimized"
+            },
+            {
+              "description": "Automation: methodology, validated",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 58,
+              "variant": "geo_optimized"
+            },
+            {
+              "description": "Testing image upload and CDN integration",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 56,
+              "variant": "voice_preserving"
+            }
+          ]
+        },
+        "geo_heavy": {
+          "platform": "substack",
+          "strategy": "geo_heavy",
+          "strategy_description": "Maximize LLM citations and AI discoverability. Best for research.",
+          "title": "Test Article with Images",
+          "description": "Automation: technology framework, validated methodology",
+          "tags": [
+            "Automation",
+            "Publishing",
+            "Images"
+          ],
+          "section": "Technology",
+          "scores": {
+            "seo": 56,
+            "geo": 65,
+            "platform_fit": 80,
+            "voice_distance": 10,
+            "combined": 64
+          },
+          "trade_offs": [
+            "GEO prioritized over traditional SEO: 65 vs 56 (ideal for AI citation and research discoverability)"
+          ],
+          "alternatives": [
+            {
+              "description": "Automation, Publishing, Images | technology insights | analysis and predictions",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 60,
+              "variant": "seo_optimized"
+            },
+            {
+              "description": "Automation: methodology, validated",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 60,
+              "variant": "geo_optimized"
+            },
+            {
+              "description": "Testing image upload and CDN integration",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 53,
+              "variant": "voice_preserving"
+            }
+          ]
+        },
+        "platform_first": {
+          "platform": "substack",
+          "strategy": "platform_first",
+          "strategy_description": "Perfect platform compliance, then optimize. Best for strict publishing.",
+          "title": "Test Article with Images",
+          "description": "Automation: technology framework, validated methodology",
+          "tags": [
+            "Automation",
+            "Publishing",
+            "Images"
+          ],
+          "section": "Technology",
+          "scores": {
+            "seo": 56,
+            "geo": 65,
+            "platform_fit": 80,
+            "voice_distance": 10,
+            "combined": 68
+          },
+          "trade_offs": [
+            "GEO prioritized over traditional SEO: 65 vs 56 (ideal for AI citation and research discoverability)"
+          ],
+          "alternatives": [
+            {
+              "description": "Automation, Publishing, Images | technology insights | analysis and predictions",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 66,
+              "variant": "seo_optimized"
+            },
+            {
+              "description": "Automation: methodology, validated",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 66,
+              "variant": "geo_optimized"
+            },
+            {
+              "description": "Testing image upload and CDN integration",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 63,
+              "variant": "voice_preserving"
+            }
+          ]
+        },
+        "voice_preservation": {
+          "platform": "substack",
+          "strategy": "voice_preservation",
+          "strategy_description": "Minimize voice changes. Best for personal brand content.",
+          "title": "Test Article with Images",
+          "description": "Automation: technology framework, validated methodology",
+          "tags": [
+            "Automation",
+            "Publishing",
+            "Images"
+          ],
+          "section": "Technology",
+          "scores": {
+            "seo": 56,
+            "geo": 65,
+            "platform_fit": 80,
+            "voice_distance": 10,
+            "combined": 34
+          },
+          "trade_offs": [
+            "GEO prioritized over traditional SEO: 65 vs 56 (ideal for AI citation and research discoverability)"
+          ],
+          "alternatives": [
+            {
+              "description": "Automation, Publishing, Images | technology insights | analysis and predictions",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 33,
+              "variant": "seo_optimized"
+            },
+            {
+              "description": "Automation: methodology, validated",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 33,
+              "variant": "geo_optimized"
+            },
+            {
+              "description": "Testing image upload and CDN integration",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 30,
+              "variant": "voice_preserving"
+            }
+          ]
+        }
+      },
+      "medium": {
+        "balanced": {
+          "platform": "medium",
+          "strategy": "balanced",
+          "strategy_description": "Equal SEO + GEO weight. Best for general content.",
+          "title": "Test Article with Images",
+          "description": "Automation: technology framework, validated methodology",
+          "tags": [
+            "Automation",
+            "Publishing",
+            "Images"
+          ],
+          "section": "Technology",
+          "scores": {
+            "seo": 71,
+            "geo": 65,
+            "platform_fit": 100,
+            "voice_distance": 10,
+            "combined": 73
+          },
+          "trade_offs": [
+            "Traditional SEO prioritized: 71 vs 65 GEO (ideal for Google search visibility)"
+          ],
+          "alternatives": [
+            {
+              "description": "Automation, Publishing, Images | technology insights | analysis and predictions",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 71,
+              "variant": "seo_optimized"
+            },
+            {
+              "description": "Automation: methodology, validated",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 71,
+              "variant": "geo_optimized"
+            },
+            {
+              "description": "Testing image upload and CDN integration",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 67,
+              "variant": "voice_preserving"
+            }
+          ]
+        },
+        "seo_heavy": {
+          "platform": "medium",
+          "strategy": "seo_heavy",
+          "strategy_description": "Maximize Google search traffic. Best for timely/news content.",
+          "title": "Test Article with Images",
+          "description": "Automation: technology framework, validated methodology",
+          "tags": [
+            "Automation",
+            "Publishing",
+            "Images"
+          ],
+          "section": "Technology",
+          "scores": {
+            "seo": 71,
+            "geo": 65,
+            "platform_fit": 100,
+            "voice_distance": 10,
+            "combined": 71
+          },
+          "trade_offs": [
+            "Traditional SEO prioritized: 71 vs 65 GEO (ideal for Google search visibility)"
+          ],
+          "alternatives": [
+            {
+              "description": "Automation, Publishing, Images | technology insights | analysis and predictions",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 70,
+              "variant": "seo_optimized"
+            },
+            {
+              "description": "Automation: methodology, validated",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 70,
+              "variant": "geo_optimized"
+            },
+            {
+              "description": "Testing image upload and CDN integration",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 68,
+              "variant": "voice_preserving"
+            }
+          ]
+        },
+        "geo_heavy": {
+          "platform": "medium",
+          "strategy": "geo_heavy",
+          "strategy_description": "Maximize LLM citations and AI discoverability. Best for research.",
+          "title": "Test Article with Images",
+          "description": "Automation: technology framework, validated methodology",
+          "tags": [
+            "Automation",
+            "Publishing",
+            "Images"
+          ],
+          "section": "Technology",
+          "scores": {
+            "seo": 71,
+            "geo": 65,
+            "platform_fit": 100,
+            "voice_distance": 10,
+            "combined": 69
+          },
+          "trade_offs": [
+            "Traditional SEO prioritized: 71 vs 65 GEO (ideal for Google search visibility)"
+          ],
+          "alternatives": [
+            {
+              "description": "Automation, Publishing, Images | technology insights | analysis and predictions",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 65,
+              "variant": "seo_optimized"
+            },
+            {
+              "description": "Automation: methodology, validated",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 65,
+              "variant": "geo_optimized"
+            },
+            {
+              "description": "Testing image upload and CDN integration",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 58,
+              "variant": "voice_preserving"
+            }
+          ]
+        },
+        "platform_first": {
+          "platform": "medium",
+          "strategy": "platform_first",
+          "strategy_description": "Perfect platform compliance, then optimize. Best for strict publishing.",
+          "title": "Test Article with Images",
+          "description": "Automation: technology framework, validated methodology",
+          "tags": [
+            "Automation",
+            "Publishing",
+            "Images"
+          ],
+          "section": "Technology",
+          "scores": {
+            "seo": 71,
+            "geo": 65,
+            "platform_fit": 100,
+            "voice_distance": 10,
+            "combined": 80
+          },
+          "trade_offs": [
+            "Traditional SEO prioritized: 71 vs 65 GEO (ideal for Google search visibility)"
+          ],
+          "alternatives": [
+            {
+              "description": "Automation, Publishing, Images | technology insights | analysis and predictions",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 79,
+              "variant": "seo_optimized"
+            },
+            {
+              "description": "Automation: methodology, validated",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 79,
+              "variant": "geo_optimized"
+            },
+            {
+              "description": "Testing image upload and CDN integration",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 76,
+              "variant": "voice_preserving"
+            }
+          ]
+        },
+        "voice_preservation": {
+          "platform": "medium",
+          "strategy": "voice_preservation",
+          "strategy_description": "Minimize voice changes. Best for personal brand content.",
+          "title": "Test Article with Images",
+          "description": "Automation: technology framework, validated methodology",
+          "tags": [
+            "Automation",
+            "Publishing",
+            "Images"
+          ],
+          "section": "Technology",
+          "scores": {
+            "seo": 71,
+            "geo": 65,
+            "platform_fit": 100,
+            "voice_distance": 10,
+            "combined": 40
+          },
+          "trade_offs": [
+            "Traditional SEO prioritized: 71 vs 65 GEO (ideal for Google search visibility)"
+          ],
+          "alternatives": [
+            {
+              "description": "Automation, Publishing, Images | technology insights | analysis and predictions",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 39,
+              "variant": "seo_optimized"
+            },
+            {
+              "description": "Automation: methodology, validated",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 39,
+              "variant": "geo_optimized"
+            },
+            {
+              "description": "Testing image upload and CDN integration",
+              "tags": [
+                "Automation",
+                "Publishing",
+                "Images"
+              ],
+              "score": 36,
+              "variant": "voice_preserving"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "summary": [
+    {
+      "article": "Research Analysis",
+      "article_type": "research_analysis",
+      "platform": "substack",
+      "strategy": "balanced",
+      "seo_score": 56,
+      "geo_score": 65,
+      "platform_fit": 80,
+      "voice_distance": 10,
+      "combined_score": 63,
+      "description": "Automation: technology framework, validated methodology",
+      "tags": [
+        "Automation",
+        "Publishing",
+        "Images"
+      ]
+    },
+    {
+      "article": "Research Analysis",
+      "article_type": "research_analysis",
+      "platform": "substack",
+      "strategy": "seo_heavy",
+      "seo_score": 56,
+      "geo_score": 65,
+      "platform_fit": 80,
+      "voice_distance": 10,
+      "combined_score": 59,
+      "description": "Automation: technology framework, validated methodology",
+      "tags": [
+        "Automation",
+        "Publishing",
+        "Images"
+      ]
+    },
+    {
+      "article": "Research Analysis",
+      "article_type": "research_analysis",
+      "platform": "substack",
+      "strategy": "geo_heavy",
+      "seo_score": 56,
+      "geo_score": 65,
+      "platform_fit": 80,
+      "voice_distance": 10,
+      "combined_score": 64,
+      "description": "Automation: technology framework, validated methodology",
+      "tags": [
+        "Automation",
+        "Publishing",
+        "Images"
+      ]
+    },
+    {
+      "article": "Research Analysis",
+      "article_type": "research_analysis",
+      "platform": "substack",
+      "strategy": "platform_first",
+      "seo_score": 56,
+      "geo_score": 65,
+      "platform_fit": 80,
+      "voice_distance": 10,
+      "combined_score": 68,
+      "description": "Automation: technology framework, validated methodology",
+      "tags": [
+        "Automation",
+        "Publishing",
+        "Images"
+      ]
+    },
+    {
+      "article": "Research Analysis",
+      "article_type": "research_analysis",
+      "platform": "substack",
+      "strategy": "voice_preservation",
+      "seo_score": 56,
+      "geo_score": 65,
+      "platform_fit": 80,
+      "voice_distance": 10,
+      "combined_score": 34,
+      "description": "Automation: technology framework, validated methodology",
+      "tags": [
+        "Automation",
+        "Publishing",
+        "Images"
+      ]
+    },
+    {
+      "article": "Research Analysis",
+      "article_type": "research_analysis",
+      "platform": "medium",
+      "strategy": "balanced",
+      "seo_score": 71,
+      "geo_score": 65,
+      "platform_fit": 100,
+      "voice_distance": 10,
+      "combined_score": 73,
+      "description": "Automation: technology framework, validated methodology",
+      "tags": [
+        "Automation",
+        "Publishing",
+        "Images"
+      ]
+    },
+    {
+      "article": "Research Analysis",
+      "article_type": "research_analysis",
+      "platform": "medium",
+      "strategy": "seo_heavy",
+      "seo_score": 71,
+      "geo_score": 65,
+      "platform_fit": 100,
+      "voice_distance": 10,
+      "combined_score": 71,
+      "description": "Automation: technology framework, validated methodology",
+      "tags": [
+        "Automation",
+        "Publishing",
+        "Images"
+      ]
+    },
+    {
+      "article": "Research Analysis",
+      "article_type": "research_analysis",
+      "platform": "medium",
+      "strategy": "geo_heavy",
+      "seo_score": 71,
+      "geo_score": 65,
+      "platform_fit": 100,
+      "voice_distance": 10,
+      "combined_score": 69,
+      "description": "Automation: technology framework, validated methodology",
+      "tags": [
+        "Automation",
+        "Publishing",
+        "Images"
+      ]
+    },
+    {
+      "article": "Research Analysis",
+      "article_type": "research_analysis",
+      "platform": "medium",
+      "strategy": "platform_first",
+      "seo_score": 71,
+      "geo_score": 65,
+      "platform_fit": 100,
+      "voice_distance": 10,
+      "combined_score": 80,
+      "description": "Automation: technology framework, validated methodology",
+      "tags": [
+        "Automation",
+        "Publishing",
+        "Images"
+      ]
+    },
+    {
+      "article": "Research Analysis",
+      "article_type": "research_analysis",
+      "platform": "medium",
+      "strategy": "voice_preservation",
+      "seo_score": 71,
+      "geo_score": 65,
+      "platform_fit": 100,
+      "voice_distance": 10,
+      "combined_score": 40,
+      "description": "Automation: technology framework, validated methodology",
+      "tags": [
+        "Automation",
+        "Publishing",
+        "Images"
+      ]
+    }
+  ]
+}

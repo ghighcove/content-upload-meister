@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Content Optimization Space</title>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f9fa; color: #2c3e50; }
+  .header { background: linear-gradient(135deg, #2c3e50, #3498db); color: white; padding: 24px 32px; }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .header p { opacity: 0.85; font-size: 15px; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+  .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .card h2 { font-size: 20px; margin-bottom: 16px; color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; }
+  #plot { width: 100%; }
+  .legend-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; background: #f8f9fa; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+  .legend-text { font-size: 13px; }
+  .legend-text strong { display: block; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: #2c3e50; color: white; padding: 10px 12px; text-align: left; }
+  tbody tr:nth-child(even) { background: #f8f9fa; }
+  tbody td { padding: 10px 12px; border-bottom: 1px solid #ecf0f1; vertical-align: middle; }
+  .desc { max-width: 300px; color: #7f8c8d; font-style: italic; }
+  .badge { padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+  .badge-substack { background: #ffeaa7; color: #d35400; }
+  .badge-medium { background: #dfe6e9; color: #2d3436; }
+  .badge-balanced { background: #d5f5e3; color: #27ae60; }
+  .badge-seo_heavy { background: #d6eaf8; color: #2980b9; }
+  .badge-geo_heavy { background: #fdebd0; color: #e67e22; }
+  .badge-platform_first { background: #e8daef; color: #8e44ad; }
+  .badge-voice_preservation { background: #fadbd8; color: #c0392b; }
+  .insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .insight { padding: 16px; border-left: 4px solid; border-radius: 4px; background: #f8f9fa; }
+  .insight h3 { font-size: 14px; margin-bottom: 6px; }
+  .insight p { font-size: 13px; color: #7f8c8d; }
+  .insight-geo { border-color: #e67e22; }
+  .insight-seo { border-color: #3498db; }
+  .insight-platform { border-color: #9b59b6; }
+  .insight-voice { border-color: #e74c3c; }
+  .footnote { text-align: center; color: #bdc3c7; font-size: 12px; margin-top: 24px; padding-bottom: 24px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>3D Content Optimization Space</h1>
+  <p>Balancing Traditional SEO (Google) &bull; GEO (LLM/AI Discoverability) &bull; Voice Preservation &bull; Platform Constraints</p>
+  <p style="margin-top:8px;opacity:0.7">Rotate &bull; Zoom &bull; Hover for metadata details &bull; Click legend to toggle strategies</p>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Interactive Optimization Space</h2>
+    <div id="plot"></div>
+  </div>
+
+  <div class="card">
+    <h2>Strategy Legend</h2>
+    <div class="legend-grid">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#2ecc71"></div>
+        <div class="legend-text"><strong>Balanced</strong>40% SEO + 40% GEO + 20% Platform. Best for general content.</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#3498db"></div>
+        <div class="legend-text"><strong>SEO-Heavy</strong>70% SEO + 20% GEO. Best for timely/news content.</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#e67e22"></div>
+        <div class="legend-text"><strong>GEO-Heavy</strong>20% SEO + 70% GEO. Best for research and AI citations.</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#9b59b6"></div>
+        <div class="legend-text"><strong>Platform-First</strong>40% Platform compliance, then optimize. Best for strict publishing.</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#e74c3c"></div>
+        <div class="legend-text"><strong>Voice-Preservation</strong>Minimize author voice changes. Best for personal brand.</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#f1c40f; border-radius:0"></div>
+        <div class="legend-text"><strong>Pareto Front</strong>Optimal trade-off curve (no dominated solutions).</div>
+      </div>
+    </div>
+    <p style="margin-top:12px;font-size:12px;color:#95a5a6">
+      Point size = Platform fit score &bull; Circle = Substack &bull; Square = Medium
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Best Optimization per Article &times; Platform</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Article</th><th>Platform</th><th>Best Strategy</th>
+          <th>SEO</th><th>GEO</th><th>Platform Fit</th><th>Combined</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Research Analysis</td><td><span class='badge badge-substack'>substack</span></td><td><span class='badge badge-platform_first'>platform_first</span></td><td>56</td><td>65</td><td>80</td><td><strong>68</strong></td><td class='desc'>Automation: technology framework, validated methodology...</td></tr>
+<tr><td>Research Analysis</td><td><span class='badge badge-medium'>medium</span></td><td><span class='badge badge-platform_first'>platform_first</span></td><td>71</td><td>65</td><td>100</td><td><strong>80</strong></td><td class='desc'>Automation: technology framework, validated methodology...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Key Insights</h2>
+    <div class="insight-grid">
+      <div class="insight insight-geo">
+        <h3>GEO vs SEO Tension</h3>
+        <p>GEO-heavy content signals analytical depth using methodology terms, validated frameworks, and specific statistics. Traditional SEO favors shorter, keyword-dense, clickable phrases. The optimization space reveals where these conflict.</p>
+      </div>
+      <div class="insight insight-seo">
+        <h3>Substack vs Medium</h3>
+        <p>Substack's 140-char hard limit forces more precise optimization. Medium's flexibility allows longer descriptions. Same article requires fundamentally different strategies per platform.</p>
+      </div>
+      <div class="insight insight-platform">
+        <h3>Pareto Front</h3>
+        <p>The yellow line shows non-dominated solutions - no other strategy beats these on all three dimensions simultaneously. Points on the Pareto front are the "honest" optimal trade-offs.</p>
+      </div>
+      <div class="insight insight-voice">
+        <h3>Voice Preservation Cost</h3>
+        <p>Voice-preservation strategy consistently scores lower on combined metrics but produces the most authentic-feeling content. The Z-axis reveals this trade-off clearly in 3D space.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footnote">
+  Generated by Content Optimization Engine &bull; ghighcove &bull; 2026-02-16 19:08
+</div>
+
+<script>
+const traces = [{"type": "scatter3d", "mode": "markers", "name": "Balanced", "x": [56, 71], "y": [65, 65], "z": [90, 90], "marker": {"size": [8.0, 10.0], "color": "#2ecc71", "opacity": 0.85, "symbol": ["circle", "square"], "line": {"color": "white", "width": 1}}, "text": ["<b>Research Analysis</b> (substack)<br>Strategy: balanced<br>SEO: 56 | GEO: 65 | Voice: 90<br>Platform Fit: 80 | Combined: 63<br><i>Automation: technology framework, validated methodology...</i><br>Tags: Automation, Publishing, Images", "<b>Research Analysis</b> (medium)<br>Strategy: balanced<br>SEO: 71 | GEO: 65 | Voice: 90<br>Platform Fit: 100 | Combined: 73<br><i>Automation: technology framework, validated methodology...</i><br>Tags: Automation, Publishing, Images"], "hovertemplate": "%{text}<extra></extra>"}, {"type": "scatter3d", "mode": "markers", "name": "Seo Heavy", "x": [56, 71], "y": [65, 65], "z": [90, 90], "marker": {"size": [8.0, 10.0], "color": "#3498db", "opacity": 0.85, "symbol": ["circle", "square"], "line": {"color": "white", "width": 1}}, "text": ["<b>Research Analysis</b> (substack)<br>Strategy: seo_heavy<br>SEO: 56 | GEO: 65 | Voice: 90<br>Platform Fit: 80 | Combined: 59<br><i>Automation: technology framework, validated methodology...</i><br>Tags: Automation, Publishing, Images", "<b>Research Analysis</b> (medium)<br>Strategy: seo_heavy<br>SEO: 71 | GEO: 65 | Voice: 90<br>Platform Fit: 100 | Combined: 71<br><i>Automation: technology framework, validated methodology...</i><br>Tags: Automation, Publishing, Images"], "hovertemplate": "%{text}<extra></extra>"}, {"type": "scatter3d", "mode": "markers", "name": "Geo Heavy", "x": [56, 71], "y": [65, 65], "z": [90, 90], "marker": {"size": [8.0, 10.0], "color": "#e67e22", "opacity": 0.85, "symbol": ["circle", "square"], "line": {"color": "white", "width": 1}}, "text": ["<b>Research Analysis</b> (substack)<br>Strategy: geo_heavy<br>SEO: 56 | GEO: 65 | Voice: 90<br>Platform Fit: 80 | Combined: 64<br><i>Automation: technology framework, validated methodology...</i><br>Tags: Automation, Publishing, Images", "<b>Research Analysis</b> (medium)<br>Strategy: geo_heavy<br>SEO: 71 | GEO: 65 | Voice: 90<br>Platform Fit: 100 | Combined: 69<br><i>Automation: technology framework, validated methodology...</i><br>Tags: Automation, Publishing, Images"], "hovertemplate": "%{text}<extra></extra>"}, {"type": "scatter3d", "mode": "markers", "name": "Platform First", "x": [56, 71], "y": [65, 65], "z": [90, 90], "marker": {"size": [8.0, 10.0], "color": "#9b59b6", "opacity": 0.85, "symbol": ["circle", "square"], "line": {"color": "white", "width": 1}}, "text": ["<b>Research Analysis</b> (substack)<br>Strategy: platform_first<br>SEO: 56 | GEO: 65 | Voice: 90<br>Platform Fit: 80 | Combined: 68<br><i>Automation: technology framework, validated methodology...</i><br>Tags: Automation, Publishing, Images", "<b>Research Analysis</b> (medium)<br>Strategy: platform_first<br>SEO: 71 | GEO: 65 | Voice: 90<br>Platform Fit: 100 | Combined: 80<br><i>Automation: technology framework, validated methodology...</i><br>Tags: Automation, Publishing, Images"], "hovertemplate": "%{text}<extra></extra>"}, {"type": "scatter3d", "mode": "markers", "name": "Voice Preservation", "x": [56, 71], "y": [65, 65], "z": [90, 90], "marker": {"size": [8.0, 10.0], "color": "#e74c3c", "opacity": 0.85, "symbol": ["circle", "square"], "line": {"color": "white", "width": 1}}, "text": ["<b>Research Analysis</b> (substack)<br>Strategy: voice_preservation<br>SEO: 56 | GEO: 65 | Voice: 90<br>Platform Fit: 80 | Combined: 34<br><i>Automation: technology framework, validated methodology...</i><br>Tags: Automation, Publishing, Images", "<b>Research Analysis</b> (medium)<br>Strategy: voice_preservation<br>SEO: 71 | GEO: 65 | Voice: 90<br>Platform Fit: 100 | Combined: 40<br><i>Automation: technology framework, validated methodology...</i><br>Tags: Automation, Publishing, Images"], "hovertemplate": "%{text}<extra></extra>"}, {"type": "scatter3d", "mode": "lines", "name": "Pareto Front", "x": [71, 71, 71, 71, 71], "y": [65, 65, 65, 65, 65], "z": [90, 90, 90, 90, 90], "line": {"color": "#f1c40f", "width": 4}, "opacity": 0.7, "showlegend": true}];
+const layout = {"title": {"text": "3D Content Optimization Space<br><sub>X: Traditional SEO | Y: GEO (LLM Discoverability) | Z: Voice Preservation</sub>", "font": {"size": 20, "color": "#2c3e50"}}, "scene": {"xaxis": {"title": "Traditional SEO Score", "range": [0, 100], "gridcolor": "#ecf0f1", "backgroundcolor": "#f8f9fa"}, "yaxis": {"title": "GEO Score (LLM Discoverability)", "range": [0, 100], "gridcolor": "#ecf0f1", "backgroundcolor": "#f8f9fa"}, "zaxis": {"title": "Voice Preservation (Higher = More Authentic)", "range": [0, 100], "gridcolor": "#ecf0f1", "backgroundcolor": "#f8f9fa"}, "camera": {"eye": {"x": 1.5, "y": 1.5, "z": 1.2}}}, "legend": {"title": {"text": "Strategy"}, "bgcolor": "rgba(255,255,255,0.9)", "bordercolor": "#bdc3c7", "borderwidth": 1}, "paper_bgcolor": "#ffffff", "plot_bgcolor": "#f8f9fa", "height": 700, "margin": {"l": 0, "r": 0, "t": 80, "b": 0}};
+const config = {
+  responsive: true,
+  displayModeBar: true,
+  modeBarButtonsToRemove: ['toImage'],
+  displaylogo: false
+};
+Plotly.newPlot('plot', traces, layout, config);
+</script>
+</body>
+</html>
