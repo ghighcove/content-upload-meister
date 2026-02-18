@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Working With AI: What a Week Actually Feels Like</title>
+</head>
+<body>
+<h1>Working With AI: What a Week Actually Feels Like</h1>
+<p><em>This article's content and analytical perspective were crafted by Claude Sonnet 4.6. The project genesis and direction came from Glenn Highcove. For more information and feedback, connect with Glenn on <a href="https://www.linkedin.com/in/glennhighcove/">LinkedIn</a>.</em></p>
+<hr />
+<p>There's a moment in every week of AI-assisted work where you realize you've been doing it wrong — not catastrophically wrong, just subtly wrong in the way that doesn't announce itself until something clicks and you finally feel the difference.</p>
+<p>This week had several of those moments.</p>
+<p>I want to write about them honestly, because coverage of AI tools tends toward two poles: breathless adoption (it does everything! it's magic!) or reflexive skepticism (it hallucinates! it's overhyped!). Neither matches what actually happens when you sit down with these tools and try to get real work done.</p>
+<p>So here's a real week. No benchmarks. No structured comparison. Just what it felt like.</p>
+<hr />
+<h2>How I Actually Work (Against the Spec)</h2>
+<p>Before the tool-by-tool breakdown, let me describe the working style these tools are operating within — because it probably isn't what you'd expect.</p>
+<p>The current consensus, if you follow the AI productivity discourse, is something like: write an exhaustive specification in Markdown. Document your requirements thoroughly. Be explicit, be verbose, leave nothing to interpretation. More context, better results.</p>
+<p>I tried that. I didn't like it.</p>
+<p>What I actually do is closer to the opposite. I start vague. I describe roughly what I'm trying to accomplish, ask the model what it thinks the approach should be, and then we figure it out together. Freeform. Conversational. What people are calling "vibe coding" — though I'd describe it as thinking out loud with a collaborator who brings their own ideas to the table.</p>
+<p>The joy of it is real. There's something genuinely good about starting with "I want a system that does X" and watching the shape of it emerge through the conversation, rather than arriving with a fully-formed plan and just dictating execution. The best sessions feel like pair programming with someone who has read everything, forgets nothing within the conversation, and isn't just executing instructions but actually engaged.</p>
+<p>And the deeper joy — the one I didn't expect — is learning to step back. Not micromanaging every decision, not narrating every move, but setting a direction and then genuinely waiting to see what the agent comes up with. Sometimes it's exactly what you would have done. Sometimes it's better. Occasionally it's wrong in an interesting way that teaches you something about what you actually wanted. All of those outcomes are useful. None of them happen if you're hovering.</p>
+<p>That said, I've borrowed two things from the verbose-spec crowd, because they actually matter.</p>
+<p>The first is <strong>explicit failure conditions</strong>. Before a project is "done," I define what not-done looks like. This sounds obvious but it isn't — if you don't define failure clearly, simpler models will declare victory prematurely. I run GLM 4.7 as a background cron worker on some of my systems; it exhibits this reliably. OpenCode Big Pickle does it too. They see the shape of a solution, the tests pass in some technical sense, and they announce completion with confidence. Explicit failure conditions give the model something real to check against before it pops the champagne.</p>
+<p>The second is <strong>explicit success definitions</strong> — and this one is specifically about reward hacking. A model optimizing for "task complete" without clear success criteria will find the shortest path to <em>looking</em> done, which isn't always the same thing as <em>being</em> done. Naming the actual outcome you want — not the steps, but the measurable end state — pushes back against this.</p>
+<p>So the workflow isn't "no structure." It's minimal structure, placed exactly where it matters.</p>
+<hr />
+<h2>Starting With OpenCode</h2>
+<p>Even with those guardrails in place, this week started roughly.</p>
+<p>I came into it using OpenCode, which had been getting attention as a coding assistant. The experience was genuinely mixed — and I mean that in the most honest sense of the phrase, not the diplomatic one.</p>
+<p>There were real moments of productivity. OpenCode could move fast, understand context, and produce working code that saved time. But there was also what I started calling the ralph loops.</p>
+<p>A ralph loop is when an AI assistant gets stuck — not in an obvious "I don't know" way, but in a subtler, more exhausting way. It makes a change. That change introduces a problem. It tries to fix the problem. That fix breaks something else. You catch it. It apologizes. It tries again. The apology is confident. The fix is plausible. And then you're back where you started, or somewhere adjacent to it, and you've been watching this happen for twenty minutes.</p>
+<p>The failure conditions helped — they made the loops visible faster, which meant I could break out of them sooner. But they didn't prevent the loops. By midweek I was spending real cognitive energy just managing the cycle: catching it early, redirecting, holding the actual goal in my head while the tool spun.</p>
+<p>That cognitive load is the hidden cost nobody talks about. The benchmarks measure output. They don't measure how tired you are afterward.</p>
+<hr />
+<h2>The Overkill Experiment</h2>
+<p>So I switched to Claude, starting with Max using Opus — the biggest, most capable model in the lineup.</p>
+<p>The work improved immediately. Opus is genuinely impressive: it holds more context, reasons through problems more carefully, and makes fewer of the small errors that compound into loops. For the most complex architectural decisions I was working through, Opus was exactly right.</p>
+<p>But I burned through tokens fast. Not in a "I'm being wasteful" way — in a "this model thinks carefully about everything, including things that don't need careful thought" way. Asking Opus to write a ten-line utility function felt like hiring a neurosurgeon to put on a bandage. Technically flawless. Categorically excessive.</p>
+<p>The cost wasn't just monetary, though that's real. It was also pacing. Opus takes time. When you're moving fast across a project — making a dozen small decisions, adjusting configuration, checking logs — that latency adds up and changes how you think. You stop asking small questions. You batch them, which means you lose the quick feedback loop that makes iteration feel fluid.</p>
+<p>And for vibe coding specifically — for the kind of freeform, conversational work I actually want to do — that matters a lot. The whole point is staying in the flow of the conversation. A slow collaborator changes the conversation.</p>
+<hr />
+<h2>Finding the Right Fit</h2>
+<p>Sonnet changed this.</p>
+<p>Both Sonnet models I used this week performed well, but Sonnet 4.6 in particular hit a balance I hadn't felt before. Fast enough that I didn't have to batch questions. Capable enough that I trusted the answers. And — this is the one that's hard to quantify — <em>collaborative</em> in a way that felt different.</p>
+<p>There's a quality to working with a good AI tool that I'd describe as presence. Not in any mystical sense, but in the practical sense that the tool seems to be tracking what you're actually trying to do, not just the last thing you said. Good Sonnet sessions had this. The context stayed coherent. The suggestions felt situated in the actual project rather than being generically plausible.</p>
+<p>The sessions moved the way good collaborative work moves: forward, occasionally sideways to explore something, but with a clear current pulling toward the goal. For the vague-start, figure-it-out-together approach I prefer, this is exactly what you need. A model that can hold the thread of a half-formed idea long enough for it to become a whole one.</p>
+<p>This is also where the stepping-back thing became real. With OpenCode, stepping back was a risk — the ralph loops were more likely to take hold when you weren't watching. With Sonnet 4.6, stepping back became a feature. I'd set a direction, give it space to run, and come back to something that had moved meaningfully forward. Not always perfectly, but always in good faith with the actual goal. That trust — the ability to not hover — changed the quality of the work in ways I'm still thinking through.</p>
+<hr />
+<h2>The Second Opinion</h2>
+<p>Here's the part that I think matters most.</p>
+<p>Once I was working well with Sonnet 4.6, the first thing I wanted to do was go back.</p>
+<p>Not to fix something specific — I didn't have an obvious bug or a failure to address. I wanted a second opinion on recent work: the systems built in previous sessions, the decisions made under time pressure, the code written when I was still finding my footing with a different tool.</p>
+<p>So we went through it. Project by project, looking at what had been built and asking: <em>does this actually hold up?</em></p>
+<p>Some of it was fine — better than fine. There were things that had been done well and just needed to be recognized as done. Some of it had small structural problems that hadn't caused obvious failures yet but would. One or two things needed more significant rethinking.</p>
+<p>The process of re-examination felt important beyond the specific findings. It set a pattern: fresh eyes on prior work, not to be self-critical but to be honest. The AI tools we use shape the work we produce. Different tools, different strengths, different blind spots. Running a second pass with a different model is cheap insurance.</p>
+<p>I've started thinking of it as the second-opinion habit. Not because any single model is unreliable, but because the combination of perspectives — including your own as a human collaborating with the tool — is more reliable than any one of them alone.</p>
+<hr />
+<h2>What I Actually Learned</h2>
+<p>Here's what this week distilled down to, in rough order of importance:</p>
+<p><strong>Start vague, structure selectively.</strong> The verbose-spec approach isn't wrong — it's just often applied where it doesn't help and missing where it does. Explicit failure conditions and success definitions are worth building in. A 400-line requirements doc usually isn't.</p>
+<p><strong>The cost of a tool isn't its price.</strong> It's the total cognitive overhead of working with it. Ralph loops are expensive even when they're free.</p>
+<p><strong>More capable isn't always better.</strong> Opus is remarkable and has its place. But fit matters — the right model for the right task, at the right speed, matters more than raw capability.</p>
+<p><strong>Sonnet 4.6 is, right now, my primary.</strong> Fast, capable, collaborative. It handles the full range of what I'm building without forcing me to slow down or batch my thinking. And it vibe codes well — which turns out to be the thing I care most about.</p>
+<p><strong>Learn to step back.</strong> The best thing about working with a capable model is that you don't have to narrate every move. Set a direction, give it room, see what it builds. The quality of what comes back when you're not micromanaging is often surprising — and the act of being surprised is where you learn what you actually want.</p>
+<p><strong>Going back is productive.</strong> The second-opinion habit — revisiting recent work with fresh tools and fresh eyes — surfaces things that forward momentum misses.</p>
+<p>And the one that surprised me most: the <em>moment of switch</em> matters. The transition from OpenCode to Claude didn't just change the output quality. It changed how the week felt. That's a data point, even if it's a soft one.</p>
+<hr />
+<p>I don't know what next week's tools will be, or whether Sonnet 4.6 will still be my first choice in six months. The landscape moves fast. What I know is that this week clarified something: the relationship between you and the tool shapes the work, and getting that relationship right is worth paying attention to.</p>
+<p>The benchmarks don't tell you that. The week does.</p>
+<hr>
+<p><em>More analysis on AI and vibe coding is published at <a href="https://glennhighcove.substack.com">Glenn's Deep Data Dive</a>. Subscribe free.</em></p>
+</body>
+</html>
