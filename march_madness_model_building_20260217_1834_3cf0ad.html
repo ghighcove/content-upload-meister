@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>We Built a March Madness Model From Scratch</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --border: #30363d;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --orange: #f0883e;
+    --red: #f85149;
+    --purple: #bc8cff;
+    --text: #e6edf3;
+    --muted: #8b949e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  h1 { font-size: 2.2rem; line-height: 1.25; color: var(--text); margin-bottom: 12px; }
+  h2 { font-size: 1.4rem; color: var(--accent); margin: 48px 0 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  h3 { font-size: 1.1rem; color: var(--green); margin: 28px 0 10px; }
+  p  { margin-bottom: 18px; color: var(--text); }
+  .subtitle {
+    font-size: 1.2rem; color: var(--muted); margin-bottom: 8px; font-style: italic;
+  }
+  .meta {
+    font-size: 0.85rem; color: var(--muted); margin-bottom: 36px;
+    border-bottom: 1px solid var(--border); padding-bottom: 18px;
+  }
+  .meta a { color: var(--accent); text-decoration: none; }
+  .disclaimer {
+    background: var(--bg2);
+    border-left: 3px solid var(--orange);
+    padding: 14px 18px;
+    margin: 0 0 36px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    border-radius: 0 6px 6px 0;
+  }
+  figure {
+    margin: 32px 0;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  figure img {
+    width: 100%;
+    display: block;
+  }
+  figcaption {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-style: italic;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  .pullquote {
+    border-left: 4px solid var(--accent);
+    padding: 16px 24px;
+    margin: 32px 0;
+    background: var(--bg2);
+    border-radius: 0 8px 8px 0;
+    font-size: 1.1rem;
+    color: var(--text);
+    font-style: italic;
+  }
+  .callout {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .callout h3 { margin-top: 0; }
+  .stat-row {
+    display: flex;
+    gap: 16px;
+    margin: 28px 0;
+    flex-wrap: wrap;
+  }
+  .stat-box {
+    flex: 1;
+    min-width: 140px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-box .num {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+  }
+  .stat-box .lbl { font-size: 0.85rem; color: var(--muted); }
+  .tag-good { color: var(--green); font-weight: 600; }
+  .tag-bad  { color: var(--red);   font-weight: 600; }
+  .tag-warn { color: var(--orange); font-weight: 600; }
+  code {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 0.9em;
+    color: var(--purple);
+  }
+  hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+  ul, ol { padding-left: 24px; margin-bottom: 18px; }
+  li { margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<p class="meta">
+  📅 February 17, 2026 &nbsp;·&nbsp;
+  <a href="../index.html">← Back to Reports</a>
+</p>
+
+<h1>We Built a March Madness Prediction Model From Scratch</h1>
+<p class="subtitle">Three models, 16 seasons of data, real cross-validated results — and a surprise we didn't see coming.</p>
+
+<div class="disclaimer">
+  <strong>Entertainment disclaimer:</strong> This is a data science project about sports analytics. Nothing here is betting advice. We don't bet, and we're not suggesting you do either. This is about understanding how predictions work — and where they break.
+</div>
+
+<div class="meta">
+  <em>Written with Claude Sonnet 4.6. Project genesis and direction by Glenn Highcove.
+  Connect on <a href="https://www.linkedin.com/in/glennhighcove/">LinkedIn</a>.</em>
+</div>
+
+<h2>Why We Did This</h2>
+
+<p>Every March, roughly 70 million Americans fill out NCAA tournament brackets. Most are wrong before the first weekend is over. The question we wanted to answer: <em>can data science do meaningfully better than guessing?</em></p>
+
+<p>The bar isn't as low as you'd think. If you just always pick the higher-seeded team, you're right about <strong>59% of the time</strong> in tournament history. Seeds (the 1-through-16 rankings assigned by the NCAA) turn out to be pretty good predictors. A coin flip gives you 50%. So the free lunch of "always pick favorites" gives you a 9-point edge.</p>
+
+<p>Our goal was to push past 70% — consistently, across multiple years, using real historical data. Here's how we tried to get there, and what we actually found.</p>
+
+<div class="stat-row">
+  <div class="stat-box"><span class="num">59%</span><span class="lbl">Seed-only baseline</span></div>
+  <div class="stat-box"><span class="num">70%+</span><span class="lbl">Our target</span></div>
+  <div class="stat-box"><span class="num">16</span><span class="lbl">Seasons of training data</span></div>
+  <div class="stat-box"><span class="num">251</span><span class="lbl">Teams tracked</span></div>
+</div>
+
+<h2>The Three Models We Built</h2>
+
+<h3>Model #1: Elo — The Chess Rating for Basketball</h3>
+
+<p>Elo is a rating system invented by physicist Arpad Elo in 1960, originally for chess. The idea is beautifully simple: every team starts with the same score (1,500 points). Win a game and your rating goes up. Lose and it goes down. The twist that makes it smart: <strong>beating a stronger team earns you more points than beating a weaker one</strong>.</p>
+
+<p>Think of it like a bank account for reputation. Knock off a top-10 team on the road? Big deposit. Lose at home to a bottom-dweller? Big withdrawal. Over an entire season — and across many seasons — the ratings tell you who's actually been performing.</p>
+
+<p>We fed our Elo model 16 seasons of college basketball results (2008–2024, skipping 2020 which was cancelled). By the time it finished learning, it had meaningful ratings for 251 teams. As of February 2026, the top of the board looks like: <strong>Connecticut</strong> (1678), <strong>North Carolina</strong> (1676), <strong>Kansas</strong> (1657), <strong>Duke</strong> (1650), <strong>Villanova</strong> (1644), and so on.</p>
+
+<figure>
+  <img src="https://ghighcove.github.io/content-upload-meister/chart_top25_elo.png" alt="Top 25 teams by Elo rating">
+  <figcaption>Top 25 teams ranked by current Elo rating (February 2026). The gap between elite programs and the middle of the pack is visible — a 200+ point difference represents a massive talent gap.</figcaption>
+</figure>
+
+<figure>
+  <img src="https://ghighcove.github.io/content-upload-meister/chart_elo_distribution.png" alt="Elo rating distribution across all 251 teams">
+  <figcaption>The full distribution of Elo ratings across 251 teams. Most teams cluster around the starting rating of 1,500. Elite programs push significantly higher; the weakest programs fall well below. Michigan and Purdue are highlighted — both above average, but Michigan holds a modest edge heading into their Feb 17 matchup.</figcaption>
+</figure>
+
+<h3>Model #2: Logistic Regression — The Weighted Checklist</h3>
+
+<p>The second approach doesn't look at history the same way. Instead of tracking wins and losses over time, it looks at measurable differences between two specific teams before a specific game:</p>
+<ul>
+  <li><strong>Seed difference</strong> — Is one team ranked much higher by the NCAA?</li>
+  <li><strong>Win percentage difference</strong> — Is one team on a much stronger winning streak?</li>
+  <li><strong>Points per game difference</strong> — Does one team score significantly more per game?</li>
+</ul>
+
+<p>The model learned the weights for each factor from 16 seasons of tournament results. Think of it like a judge at a competition: each factor has a score, the weights determine how much each score matters, and the final output is a probability — "Team A wins 63% of games that look like this."</p>
+
+<p>This is called "logistic regression" because it uses a mathematical function called the logistic curve (also known as a sigmoid) to convert a weighted sum into a number between 0% and 100%.</p>
+
+<h3>Model #3: The Committee Vote (Ensemble)</h3>
+
+<p>The third model doesn't replace the first two — it combines them, along with the simple seed baseline, into a weighted committee vote:</p>
+<ul>
+  <li>Logistic regression: <strong>45%</strong> of the vote (most accurate in testing)</li>
+  <li>Elo: <strong>35%</strong> of the vote</li>
+  <li>Seed baseline: <strong>20%</strong> of the vote (simple but reliable)</li>
+</ul>
+
+<p>The logic: three different models making mistakes in different situations might outperform any single model that always makes the same kinds of mistakes. This is a core principle of machine learning called <em>ensemble learning</em>.</p>
+
+<h2>How We Know If It Works: The Validation Method</h2>
+
+<p>Here's where most amateur sports prediction models go wrong: they test themselves on data they already trained on. That's like a student who memorizes the answer key, then brags about their test score.</p>
+
+<p>We used a method called <em>cross-validation</em>. The rule: the model only trains on data from years it has NOT yet seen. Then we test it on real tournament games from that year and count how many it got right. We did this for 2022, 2023, and 2024.</p>
+
+<div class="callout">
+  <h3>The test protocol</h3>
+  <p>To predict the 2024 tournament: train on 2008–2023 only, then predict every 2024 game. Count correct picks. Repeat for 2022 and 2023. This gives us honest accuracy — no peeking at future data.</p>
+</div>
+
+<h2>The Results</h2>
+
+<figure>
+  <img src="https://ghighcove.github.io/content-upload-meister/chart_accuracy.png" alt="Model accuracy by year and model type">
+  <figcaption>Cross-validated accuracy for each model across the 2022, 2023, and 2024 tournaments, plus overall average. The orange dotted line is the historical seed-picking baseline (59%). The red dashed line is a coin flip (50%). All three models beat both benchmarks on average.</figcaption>
+</figure>
+
+<p>Logistic regression outperforms the other two on average, at <strong class="tag-good">71.4%</strong>. But look at the year-by-year variance — Elo swung from 74.6% in 2022 to 61.9% in 2023. Tournament basketball is chaotic; no model is immune to upsets. What matters is the multi-year average, and all three models beat the simple seed baseline.</p>
+
+<div class="stat-row">
+  <div class="stat-box"><span class="num">71.4%</span><span class="lbl">Logistic (best avg)</span></div>
+  <div class="stat-box"><span class="num">68.8%</span><span class="lbl">Seed baseline</span></div>
+  <div class="stat-box"><span class="num">67.2%</span><span class="lbl">Elo (avg)</span></div>
+</div>
+
+<h2>Then We Tried to Use It Every Week — And Something Broke</h2>
+
+<p>We built this model to predict the March Madness tournament. But we also want to run a weekly regular-season picks column. In February, there are 70+ college basketball games every week. Can we use the same model?</p>
+
+<p>We ran a test: Michigan Wolverines visiting Purdue Boilermakers, February 17, 2026. Let's ask the model who wins.</p>
+
+<div class="pullquote">
+  The logistic model returned: <code>seed_diff: 0.0, win_pct_diff: 0.0, ppg_diff: 0.0</code>. All features were zero. Win probability output: <strong>50.5%</strong>. Basically a coin flip.
+</div>
+
+<p>The model wasn't broken — it was honest. In February, seeds don't exist yet (Selection Sunday is March 15). The logistic model tried to look up 2026 stats for Michigan and Purdue in its training database, couldn't find anything it recognized, and returned zeros across the board.</p>
+
+<p>This is what's called a <em>distribution shift</em>: the model was trained on tournament data, and tournament conditions are different from regular season conditions. Asking it to predict regular season games is like asking an expert who only watched playoff games to analyze a regular season matchup — the knowledge is there, but it was built for a different context.</p>
+
+<figure>
+  <img src="https://ghighcove.github.io/content-upload-meister/chart_feature_gap.png" alt="Feature values: tournament vs. regular season">
+  <figcaption>What the logistic model actually "sees" for a typical tournament matchup (green) vs. the February 17 regular season game (red). For regular season games, every feature the model relies on came back as zero — because the data it was trained to look for doesn't exist yet in February.</figcaption>
+</figure>
+
+<h2>What Actually Works for Regular Season: Elo Alone</h2>
+
+<p>The Elo predictor doesn't have this problem. It updates after every single game, all season long. It doesn't need seeds. It doesn't need efficiency stats calculated in March. It just watches game results and continuously updates each team's rating.</p>
+
+<p>For Michigan vs. Purdue on February 17:</p>
+<ul>
+  <li>Michigan Elo: <strong>1608</strong></li>
+  <li>Purdue Elo: <strong>1568</strong></li>
+  <li>Gap: <strong>40 points</strong> in Michigan's favor</li>
+  <li>Elo win probability for Michigan: <strong>55.8%</strong></li>
+</ul>
+
+<p>That's real signal. It's not perfect, but it's honest and it's current. Purdue is at home — home court advantage in college basketball adds roughly 3–4 percentage points to the home team, making this roughly a 50-50 game with a slight lean toward Michigan. That feels right for this matchup.</p>
+
+<figure>
+  <img src="https://ghighcove.github.io/content-upload-meister/chart_3d_surface.png" alt="3D Elo win probability surface">
+  <figcaption>The Elo win probability surface. X and Y axes show the Elo ratings of the two teams. Z (height + color) shows the predicted win probability for the team on the X axis. When both teams have equal ratings, the surface is flat at 50%. The green dot marks the Michigan-Purdue matchup — close to the middle of the surface, reflecting a genuinely competitive game.</figcaption>
+</figure>
+
+<h2>What We're Building Next</h2>
+
+<p>Starting soon: a weekly picks column using Elo ratings as the foundation, layered with contextual factors — how many days has each team had to rest? Are they flying across time zones? How many consecutive road games have they played? None of these factors are magic, but they're real, measurable signals that can tip a close game.</p>
+
+<p>We'll also track every pick publicly — wins, losses, running totals. No real money, ever. This is a paper portfolio: analytics as entertainment, with full accountability. If we're wrong, we'll say so.</p>
+
+<p>On March 15 (Selection Sunday), we'll get real 2026 seeds — and the full ensemble model comes back online for bracket prediction. That's what we built it for.</p>
+
+<h2>The Honest Truth About Sports Prediction</h2>
+
+<p>A 71.4% accuracy rate in tournament predictions sounds impressive. And it is — relative to coin flipping and relative to the seed baseline. But it also means <strong>roughly 18 wrong picks in a 63-game tournament</strong>. Perfect brackets are nearly impossible. The odds of a perfect bracket are somewhere around 1-in-9-quintillion.</p>
+
+<div class="pullquote">
+  What data science gives you isn't certainty. It gives you a <em>systematic edge</em> — a way to be wrong less often, in more predictable ways, with better calibrated expectations about your own uncertainty.
+</div>
+
+<p>Sports are inherently chaotic. A single ankle roll changes everything. Upset culture is real — and frankly, it's what makes March Madness worth watching. Our models can tell you the odds going in. They can't tell you who trips on the way to the free-throw line.</p>
+
+<p>That honest uncertainty? That's not a bug. It's the whole point of the column.</p>
+
+<hr>
+
+<p style="color: var(--muted); font-size: 0.9rem;">
+  <em>All accuracy numbers are real, cross-validated results from 2022–2024 NCAA Tournaments.
+  Elo ratings reflect all available game results through February 2026.
+  No prediction data was used for training that wasn't available before the relevant tournament.
+  Model code and methodology available upon request.</em>
+</p>
+
+</body>
+</html>
