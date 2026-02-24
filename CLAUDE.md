@@ -15,8 +15,8 @@ medium_seo_setter.py      substack_seo_setter.py (REST API)
 (JS injection, browser)
 ```
 
-**Shared tools location**: `G:/ai/_shared_tools/publishing/`
-**Skill**: `/publish-everywhere` (at `C:/Users/ghigh/.claude/skills/publish-everywhere/`)
+**Shared tools location**: `../_shared_tools/publishing/` (sibling directory)
+**Skill**: `/publish-everywhere` (in your `~/.claude/skills/publish-everywhere/`)
 
 ## Platform Constraints (HARD RULES)
 
@@ -39,14 +39,15 @@ medium_seo_setter.py      substack_seo_setter.py (REST API)
 
 - **Adapters return payloads; orchestrator does browser ops** — Medium SEO payload returned as `{submission_url, js}` dict; pipeline navigates + injects.
 - **optimizer_result schema**: engine returns `title`/`description`; setters accept both `seo_title`/`seo_description` AND `title`/`description` as fallback.
-- **Substack MCP path**: configurable via `SUBSTACK_MCP_PATH` env var (default: `C:/Users/ghigh/AppData/Roaming/npm/node_modules/substack-mcp-plus`).
+- **Substack MCP path**: configurable via `SUBSTACK_MCP_PATH` env var (default: npm global install path for `substack-mcp-plus`).
 
 ## Python Environment
 
 For Substack scripts, use the venv Python (needs 3.9+):
 ```
-C:/Users/ghigh/AppData/Roaming/npm/node_modules/substack-mcp-plus/venv/Scripts/python.exe
+<npm-global-path>/node_modules/substack-mcp-plus/venv/Scripts/python.exe
 ```
+(Run `npm root -g` to find your npm global path)
 
 ## Test IDs
 
