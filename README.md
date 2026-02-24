@@ -59,7 +59,7 @@ _shared_tools/publishing/
 
 - **Main Project**: https://github.com/ghighcove/content-upload-meister
 - **Shared Tools**: https://github.com/ghighcove/ai-shared-tools
-- **Skill**: Local (C:/Users/ghigh/.claude/skills/publish-everywhere/)
+- **Skill**: Install to `~/.claude/skills/publish-everywhere/` (see Installation)
 
 ---
 
@@ -172,21 +172,21 @@ pip install markdown pyyaml requests
 
 ```bash
 # Copy skill to user directory (if not already installed)
-cp -r .claude/skills/publish-everywhere C:/Users/ghigh/.claude/skills/
+cp -r .claude/skills/publish-everywhere ~/.claude/skills/
 ```
 
 ### 5. Verify Installation
 
 ```bash
 # Test markdown parser
-cd G:/ai/_shared_tools/publishing
+cd _shared_tools/publishing
 python markdown_parser.py ../../march_madness/article/medium_draft.md
 
 # Test image uploader (dry-run)
 python image_uploader.py test.png ghighcove medium-images
 
 # Verify skill
-ls C:/Users/ghigh/.claude/skills/publish-everywhere/
+ls ~/.claude/skills/publish-everywhere/
 ```
 
 ---
@@ -232,7 +232,7 @@ category: Category Name
 # Article Content Here
 ```
 
-**Template**: `G:/ai/_shared_tools/publishing/templates/article_frontmatter.yaml`
+**Template**: `_shared_tools/publishing/templates/article_frontmatter.yaml`
 
 ---
 
@@ -283,7 +283,7 @@ category: Category Name
 ## Troubleshooting
 
 See comprehensive troubleshooting guide:
-- **Skill README**: `C:/Users/ghigh/.claude/skills/publish-everywhere/README.md`
+- **Skill README**: `~/.claude/skills/publish-everywhere/README.md`
 - **Implementation Notes**: `IMPLEMENTATION_SUMMARY.md`
 
 **Common Issues**:
@@ -340,9 +340,9 @@ See comprehensive troubleshooting guide:
 ## Documentation
 
 - **Implementation Summary**: [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)
-- **Skill README**: `C:/Users/ghigh/.claude/skills/publish-everywhere/README.md`
-- **Medium Standards**: `G:/ai/medium-publishing-standards/STANDARDS.md`
-- **Shared Tools**: `G:/ai/_shared_tools/publishing/`
+- **Skill README**: `~/.claude/skills/publish-everywhere/README.md`
+- **Medium Standards**: https://github.com/ghighcove/medium-publishing-standards
+- **Shared Tools**: `_shared_tools/publishing/` (sibling directory)
 
 ---
 

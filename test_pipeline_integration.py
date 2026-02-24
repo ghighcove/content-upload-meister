@@ -19,7 +19,7 @@ import json
 from pathlib import Path
 
 # Shared publishing tools
-sys.path.insert(0, str(Path("G:/ai/_shared_tools/publishing")))
+sys.path.insert(0, str(Path(__file__).parent.parent / "_shared_tools" / "publishing"))
 
 from substack_seo_setter import set_seo_from_optimizer_output
 from medium_seo_setter import build_medium_seo_from_optimizer

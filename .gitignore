@@ -1,1 +1,9 @@
 tasks/context.md
+
+# Internal development notes with machine-specific paths
+IMPLEMENTATION_SUMMARY.md
+PHASE_2_STATUS.md
+docs/
+TESTING_GUIDE.md
+TEST_RESULTS.md
+SUBSTACK_IMAGE_SUCCESS.md

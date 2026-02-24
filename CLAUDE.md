@@ -58,6 +58,6 @@ For Substack scripts, use the venv Python (needs 3.9+):
 
 - Do NOT use `raw.githubusercontent.com` URLs for Medium import (serves `text/plain`)
 - Do NOT paste `<table>` HTML into articles — always convert to PNG first
-- Do NOT include local file paths in articles (`G:/ai/...`, `C:/Users/...`)
+- Do NOT include local file paths in articles (no absolute machine paths like drive letters or /home/user/)
 - Do NOT set SEO description > 140 chars for Substack (will fail silently or error)
 - Do NOT retry Medium scheduling more than once if it fails — flag for manual fix

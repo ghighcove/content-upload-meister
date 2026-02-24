@@ -9,12 +9,12 @@ import sys
 import re
 from pathlib import Path
 
-sys.path.insert(0, 'G:/ai/_shared_tools/publishing')
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / '_shared_tools' / 'publishing'))
 
 # Will fail until table_to_image.py is created
 from table_to_image import convert_tables_to_images, has_tables
 
-TEST_OUTPUT_DIR = Path('G:/ai/content_upload_meister/test/table_images')
+TEST_OUTPUT_DIR = Path(__file__).parent / 'table_images'
 
 # --- Fixtures ---
 

@@ -9,8 +9,8 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-# Add shared tools to path
-sys.path.insert(0, 'G:/ai/_shared_tools/publishing')
+# Add shared tools to path (sibling _shared_tools directory)
+sys.path.insert(0, str(Path(__file__).parent.parent / '_shared_tools' / 'publishing'))
 
 from multi_dim_analyzer import MultiDimAnalyzer
 from optimization_engine import OptimizationEngine
@@ -22,7 +22,7 @@ from visualizer import OptimizationVisualizer
 # =====================================================================
 TEST_ARTICLES = {
     'Research Analysis': {
-        'path': 'G:/ai/content_upload_meister/test/article/test_with_images.md',
+        'path': str(Path(__file__).parent / 'test' / 'article' / 'test_with_images.md'),
         'type': 'research_analysis',
         'description': 'Data-heavy analytical content'
     }
@@ -106,7 +106,7 @@ def run_test_matrix():
             print()
 
     # Save results JSON
-    results_path = f"G:/ai/content_upload_meister/test/optimization_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    results_path = str(Path(__file__).parent / 'test' / f"optimization_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
     with open(results_path, 'w', encoding='utf-8') as f:
         json.dump({
             'generated': datetime.now().isoformat(),

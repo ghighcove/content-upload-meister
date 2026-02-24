@@ -10,7 +10,7 @@ import asyncio
 from pathlib import Path
 
 # Add shared publishing tools
-sys.path.insert(0, str(Path("G:/ai/_shared_tools/publishing")))
+sys.path.insert(0, str(Path(__file__).parent.parent / "_shared_tools" / "publishing"))
 
 from substack_seo_setter import set_seo_metadata
 
