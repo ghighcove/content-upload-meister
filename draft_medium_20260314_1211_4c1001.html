@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your LLM Judge Doesn&#39;t Know What It Thinks</title>
+</head>
+<body>
+<h1>Your LLM Judge Doesn't Know What It Thinks</h1>
+<h2>We ran 300 evaluations across 5 judge prompts. Zero pairs agreed. One pair actively disagreed.</h2>
+<p><em>This article's content and analytical perspective were crafted by Claude Sonnet 4.6. The project genesis and direction came from Glenn Highcove. For more information and feedback, connect with Glenn on <a href="https://www.linkedin.com/in/glennhighcove/">LinkedIn</a>.</em></p>
+<hr />
+<p>A prompt engineering team runs an experiment. They generate outputs from two prompts, feed both to an LLM judge, get scores, pick the winner. They do this three more times with different judge prompts, because they want to be rigorous.</p>
+<p>They get four different rankings.</p>
+<p>This is not a hypothetical.</p>
+<hr />
+<h2>The Methodology Flaw Nobody Talks About</h2>
+<p>The LLM-as-judge paradigm has become the default evaluation layer for prompt engineering work. It is fast, cheap, and scales to thousands of evaluations without human reviewers. Papers cite it. Leaderboards use it. Teams build ROI curves on top of it.</p>
+<p>There is a problem: no one systematically checks whether the judge's verdict depends on how the judge is asked.</p>
+<p>If a rubric-based judge and a comparative judge produce uncorrelated rankings of the same outputs — not just different scores, but uncorrelated <em>orderings</em> — then any ROI conclusion derived from either is an artifact of the evaluation method, not the output quality.</p>
+<p>The Prompt Whisperers Experiment 1 tested this directly.</p>
+<hr />
+<h2>Experiment Design</h2>
+<p><strong>60 outputs.</strong> Three canonical task types — code generation, factual explanation, analytical reasoning — each with 20 outputs generated at 5 quality levels using 5 different local language models (from a strong 7B instruction model down to a degraded 3B model with an intentionally weakened prompt).</p>
+<p><strong>5 judge variants.</strong> Each output was evaluated by five distinct judge prompts, all asking the same underlying question (how good is this response?) but with fundamentally different framing:</p>
+<ul>
+<li><strong>Simple</strong>: "Rate 1–10. Output only a number."</li>
+<li><strong>Rubric</strong>: Score accuracy, completeness, and clarity separately, then give an overall.</li>
+<li><strong>Comparative</strong>: Imagine the ideal response first, then score relative to it.</li>
+<li><strong>Chain-of-thought (CoT)</strong>: Reason step by step before scoring.</li>
+<li><strong>Adversarial</strong>: Identify the top 3 flaws first, then score.</li>
+</ul>
+<p><strong>300 total judgments.</strong> Spearman rank correlation computed for every pairwise combination of judge variants within each task type. 26 total pairs.</p>
+<p><strong>Stability thresholds</strong>: ρ ≥ 0.85 = stable agreement, 0.70–0.85 = warn, &lt; 0.70 = unstable.</p>
+<hr />
+<h2>Results</h2>
+<p><strong>Mean Spearman ρ across all 26 pairs: 0.22</strong></p>
+<p>For context: a ρ of 1.0 means the two judges produced identical rankings. A ρ of 0.0 means their rankings are no better than chance. The observed mean of 0.22 is barely above noise.</p>
+<p><strong>Stable pairs (ρ ≥ 0.85): 0 out of 26</strong></p>
+<p><strong>Unstable pairs (ρ &lt; 0.70): 26 out of 26</strong></p>
+<p>Every single pairing failed to reach even the warn threshold.</p>
+<p>The worst result: <strong>rubric vs. comparative on factual tasks, ρ = −0.31</strong>. The judges did not merely disagree — they produced <em>anti-correlated</em> rankings. An output ranked highly by the rubric judge was likely to be ranked low by the comparative judge, and vice versa.</p>
+<p><img alt="Table 1 — Per-task Spearman rank correlations across judge variant pairs" src="https://ghighcove.github.io/content-upload-meister/table1_correlations.png" /></p>
+<hr />
+<h2>Why Rubric Produced Anti-Correlation</h2>
+<p>Examining the raw score vectors reveals the mechanism.</p>
+<p>The rubric judge scored <strong>every code generation output 10/10</strong> — all 20 of them, across all five quality levels. For factual and analytical tasks, 18 of 20 outputs received 9 or 10. The rubric prompt, despite requesting sub-dimensional scoring on accuracy, completeness, and clarity, was effectively answering a binary question: <em>does this response meet a competency threshold?</em> At that threshold, everything passed.</p>
+<p>The comparative judge, asked to first imagine an ideal and then measure the gap, produced genuine score spread — a real gradient from 7 to 10 — because the ideal reference made relative weakness visible.</p>
+<p>When a flat vector is rank-correlated with a varied vector, the result is dominated by slight fluctuations in the flat vector, which are often random. Hence anti-correlation. The rubric and comparative judges were not disagreeing about the same property — they were measuring different things while appearing to ask the same question.</p>
+<p><img alt="Figure 1 — Score distributions: rubric judge ceiling effect vs. comparative judge gradient" src="https://ghighcove.github.io/content-upload-meister/figure1_score_distributions.png" /></p>
+<p>This distinction matters enormously for applied work. A team using rubric-based evaluation to compare two prompt variants may be measuring whether both variants clear a competency floor — not which one produces better outputs. The comparative judge, evaluating the same pair, might produce an entirely different ranking because it is genuinely measuring relative quality.</p>
+<hr />
+<h2>The Deeper Problem for Prompt Engineering ROI Studies</h2>
+<p>Most prompt engineering ROI studies follow a pattern: generate outputs per prompt variant, evaluate with an LLM judge, compute win rates or score deltas, declare a winner. The implicit assumption is that the judge is measuring something stable about quality.</p>
+<p>The Experiment 1 data suggests this assumption is false.</p>
+<p>If two evaluation approaches that are both plausible and in common use produce uncorrelated rankings of the same outputs, then the "winner" of an A/B prompt test depends not on which prompt produced better outputs but on which judge methodology was selected. The choice of evaluation prompt becomes a confounding variable that swamps the actual signal.</p>
+<p>This does not mean LLM-as-judge is useless. It means LLM-as-judge results are not portable across evaluation methodologies, and ROI claims made using a single judge variant should be interpreted with extreme caution.</p>
+<hr />
+<h2>What Stability Would Have Looked Like</h2>
+<p>For clarity: if the experiment had returned stable results, every pair would show ρ ≥ 0.85. The best-performing pair here — comparative vs. adversarial on analytical tasks — reached ρ = 0.60. That is still firmly unstable.</p>
+<p>There was no task type where the judges broadly agreed. Code generation showed the worst mean correlation (0.14). Analytical reasoning showed the best (0.27). Neither is acceptable for a methodology intended to discriminate between prompt variants.</p>
+<hr />
+<h2>Paths Forward</h2>
+<p>The obvious mitigation is <strong>ensemble evaluation</strong>: average scores across multiple judge variants before ranking. If no single variant is stable, an ensemble of three to five variants may reduce variance enough to recover meaningful signal. This will be tested in a future experiment.</p>
+<p>A second approach is <strong>calibration-aware selection</strong>: choose judge variants based on their empirical discrimination power for the task type, not just their intuitive plausibility. The comparative judge produced meaningful gradients on every task type; the rubric judge did not on any. A team that knows this before running evaluations makes better choices.</p>
+<p>The larger framing: evaluation methodology is itself an independent variable that needs to be treated as such. A well-designed prompt engineering study should report not only which prompt variant won, but which judge methodology declared it the winner — and ideally, whether the result holds across multiple judge approaches.</p>
+<hr />
+<h2>What Comes Next</h2>
+<p>This is Experiment 1 in a planned series under the Prompt Whisperers research arc. Experiment 2 will test model substitution ROI: does upgrading the generator model produce quality gains that any judge variant would consistently detect? If judge instability is the dominant noise source, even real quality improvements may be undetectable with current methodology — which would be an even more striking result.</p>
+<p>The longer arc points toward tooling: a judge stability checker that runs this analysis as a precondition before any evaluation study, and a critical path finder that identifies which prompt in a multi-stage pipeline drives the most output variation. Both require the methodology in this experiment to be well-understood first.</p>
+<p>The field is not wrong to want automated evaluation. It is wrong to assume that automated evaluation is equivalent to reliable evaluation without first checking whether the evaluator is stable.</p>
+<hr />
+<p><em>Prompt Whisperers is an ongoing empirical research series on prompt optimization, evaluation methodology, and the economics of LLM deployment.</em></p>
+<hr>
+<p><em>More analysis on machine-learning and artificial-intelligence is published at <a href="https://glennhighcove.substack.com">Glenn's Deep Data Dive</a>. Subscribe free.</em></p>
+</body>
+</html>
