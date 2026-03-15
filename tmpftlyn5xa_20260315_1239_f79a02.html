@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>We Built a Combat Simulator That Runs 78,000 Fights to Settle History&#39;s Dumbest Arguments</title>
+</head>
+<body>
+<h1>We Built a Combat Simulator That Runs 78,000 Fights to Settle History's Dumbest Arguments</h1>
+<h2>What actually happens when a Roman Legionary meets a Modern Rifleman? The answer depends entirely on where they're standing.</h2>
+<p><em>This article's content and analytical perspective were crafted by Claude Sonnet 4.6. The project genesis and direction came from Glenn Highcove. For more information and feedback, connect with Glenn on <a href="https://www.linkedin.com/in/glennhighcove/">LinkedIn</a>.</em></p>
+<hr />
+<p>There's an argument that starts at 3 AM. Maybe it's fueled by whiskey and a documentary about the Roman army. Maybe it's a Reddit thread that's already 400 comments deep. The argument is always some version of the same question: <em>Who would win?</em></p>
+<p>Could a Roman legion beat a modern infantry unit? Could a medieval knight survive a gunfight? What happens when a Mongol horse archer unit runs into a formed Roman century? And — venturing further — what happens when a Delta Force operator walks into a cross-dimensional fortress staffed by fantasy-world orcs?</p>
+<p>These questions are unanswerable by intuition alone. They involve weapon physics, terrain geometry, armor penetration, engagement range, morale dynamics, and a dozen other variables that human brains are wired to flatten into a single confident narrative. The correct weapon always wins. The technologically superior fighter always wins. History moves in one direction.</p>
+<p>The EPOCH simulation engine was built to test those assumptions. It has no narrative bias, no favorites, and no opinion on whether gunpowder changed everything. It knows damage dice, skill rolls, zone mechanics, and terrain modifiers. It runs each fight a thousand times and reports the distribution.</p>
+<p>What it found is that the confident narrative is almost always wrong — and the correct answer is almost always: <em>it depends on where they're standing.</em></p>
+<hr />
+<h2>How EPOCH Works</h2>
+<p>EPOCH is a wego (simultaneous-resolution) combat engine. Both sides declare movement intent and attack selection at the same moment each tick; outcomes resolve simultaneously. No initiative advantage. No turn order. Both fighters can land a killing blow in the same tick.</p>
+<p>Every combatant has a stat block built on GURPS-compatible values, where 10 represents average human baseline:</p>
+<ul>
+<li><strong>FORCE</strong> — physical power and weapon damage</li>
+<li><strong>AGILITY</strong> — speed, evasion, and movement</li>
+<li><strong>INTELLECT</strong> — skill ceiling and tactical awareness</li>
+<li><strong>ARMOR</strong> — damage absorption</li>
+<li><strong>INTEGRITY</strong> — effective hit points</li>
+</ul>
+<p>Weapons carry damage dice, damage type (cutting, impaling, crushing, burning, or explosive), effective range, and skill level. Damage type multiplies post-armor penetration: an impaling hit gets a ×2 multiplier; a cutting hit gets ×1.5; crushing takes full. A sword and a rifle can deal similar raw damage — but a rifle through a visor gap and a sword into padded mail are different propositions entirely.</p>
+<p>Each tick, both combatants select the best available weapon for the current engagement zone and attempt a 3d6 roll under their effective weapon skill. A base 3d6-under-skill system has clean probability geometry: skill 12 hits 74% of the time; skill 8 hits 25.9%; skill 14 hits 90.7%. Terrain penalties and zone penalties degrade effective skill before the roll, which means the same weapon can go from dominant to nearly useless depending on position.</p>
+<p><strong>Five zones govern weapon selection:</strong> CONTACT (grappling — knives, hands), CLOSE (melee reach — swords, axes, spears), SHORT (thrown/pistol range), MEDIUM (rifle optimal range — assault rifles, bows), and LONG (extreme range — sniper systems, artillery).</p>
+<p>A sword at MEDIUM range is useless. A rifle at CONTACT range takes a −99 effective penalty — by design, because a rifle is a terrible bludgeon and the simulation knows that. The moment an opponent closes past SHORT zone, the firearm operator is forced to transition weapons or fight at severe disadvantage.</p>
+<p><img alt="Fight Duration" src="https://ghighcove.github.io/content-upload-meister/images/2026/03/fight_duration.png" /></p>
+<p>Twenty terrain types are modeled across five categories, each applying multiplicative modifiers to ranged weapon effectiveness and movement options. Open field carries no modifier. Dense forest reduces ranged effectiveness to 30%. A castle gate assigns a 0.0 multiplier to attacker ranged weapons — the murder-hole architecture physically prevents an aimed shot.</p>
+<p>Each matchup runs 200 trials minimum; key matchups run 1,000. Across 78 unique (matchup, terrain) combinations, that's over 78,000 individual simulated fights.</p>
+<hr />
+<h2>Matrix 1: The Historical Matchups</h2>
+<p>The first matrix tests matchups within recorded history — combatants whose stat blocks can be derived from archaeological evidence, contemporary accounts, and the physics of their weapons.</p>
+<p><img alt="Historical Matchups Bars" src="https://ghighcove.github.io/content-upload-meister/images/2026/03/historical_matchups_bars.png" /></p>
+<h3>Roman Legionary vs. Germanic Warrior</h3>
+<p>The Roman legionary is not favored 1v1 against a Germanic warrior in open field. The data: <strong>A wins 44%, B wins 48%, draw 8%</strong>, average fight duration 4.8 ticks. The Germanic warrior carries a force advantage and a ferocity that the legionary's disciplined mechanics don't fully counter solo. The legionary's shields and formations are unit-level advantages — they don't help when it's one man against one man.</p>
+<p>Move them to forest ambush and the result flips toward the Germanic warrior harder: <strong>22% Roman, 72% Germanic</strong>. The forest strips the legionary of sight lines and formation coherence while the Germanic warrior is at home in woodland terrain.</p>
+<p>The most extreme number in the entire historical matrix is the castle gate result: <strong>11.5% Roman, 84.5% Germanic</strong>, with the Germanic warrior holding the gate. The fortification swing isn't +10 percentage points. It's a factor of 3.7 reduction in Roman win rate. This is the mechanical explanation for why Roman armies invested so heavily in siege equipment — and why breaching defended fortifications is categorically different from open-field engagement.</p>
+<h3>Roman Century vs. Mongol Horse Archer Unit</h3>
+<p>This result surprises people. The Mongol composite bow has legendary range and rate of fire; the Mongol unit has higher AGILITY and superior zone mobility. The simulation gives the Roman Century an <strong>82% win rate in open field</strong>.</p>
+<p>The mechanics explain it: the Century's unit-scale INTEGRITY is enormous. The Mongols are whittling it down — their bow damage accumulates — but the Roman formation's coordinated advance forces zone closure faster than the Mongols can inflict a killing margin. At close range, the Mongols' composite bow loses the range modifier that makes it lethal. By the time they're forced to commit to close engagement, the Century has absorbed the damage and closes the finish.</p>
+<p>The 18% draws are the Mongols' best outcome: they hit maximum tick count while the Century is still absorbing damage, neither side able to finish the other.</p>
+<p>At castle wall — Romans defending — the result inverts to <strong>5.5% Roman win, 94.5% draw</strong>. The Century becomes near-impregnable. The Mongol arrows can reach the defenders, but the defense bonus absorbs them indefinitely while the Romans cannot effectively pursue. The draw rate captures the historical pattern: steppe cavalry devastated unformed infantry in the open but persistently failed against fixed fortifications. The simulation surfaces this without being told the historical lesson.</p>
+<p>In forest ambush: <strong>100% draw</strong>. Neither unit can operate effectively. The Mongol ranged advantage is suppressed; the Roman formation cannot advance in good order. Maximum ticks, no resolution.</p>
+<h3>Roman Legionary vs. Medieval Knight</h3>
+<p><strong>All terrains: 0% Roman, 100% Knight.</strong> Average fight duration: 4.0 ticks.</p>
+<p>The knight in full plate carries ARMOR 6. The legionary's gladius deals cutting damage; after armor penetration, the net damage per hit is insufficient to matter. The legionary cannot hurt the knight fast enough, and the knight's two-handed weapon closes out INTEGRITY in a handful of blows. This matchup functions as a validation test: when armor physics are modeled correctly, a man in iron and leather should not beat a man in full plate. The simulation confirms the physics are working.</p>
+<h3>Roman Legionary vs. Modern Infantry Rifleman — The Zone Paradox</h3>
+<p><strong>Open field: A wins 97%, B wins 3%.</strong> Average fight duration: 15.7 ticks.</p>
+<p>This is the number that derails every 3 AM argument. The Roman legionary beats a modern infantry rifleman nearly 97% of the time in open field at starting engagement zone CLOSE.</p>
+<p>The mechanics are not mysterious. At CLOSE zone, the assault rifle operates at a −4 effective skill penalty — rifles are optimized for MEDIUM range, not grappling distance. Effective skill at CLOSE drops to approximately 8, which means a P(≤8 on 3d6) = 25.9% hit probability per tick. The legionary at CLOSE zone is attacking at full skill, a higher hit probability than the rifle can manage at that range.</p>
+<p>The legionary also has ARMOR 3 against the rifle's impaling projectiles at close range, where the rifle's effective damage output drops. The legionary closes, hits consistently, and wins decisively.</p>
+<p><strong>Castle wall: 46% Roman, 38.5% Rifle, 15.5% draw.</strong> The fortification creates a standoff: the legionary cannot penetrate the defensive position cleanly, but the rifleman cannot get a clean sight line to operate at effective zone. This is where the fight gets long — 33.7 average ticks — because neither side has a decisive mechanical advantage and both are burning attrition.</p>
+<p><strong>Forest ambush: 77.5% Roman, 19% Rifle.</strong> The forest reduces ranged effectiveness to 30%, meaning the rifle's effective skill in this terrain is roughly 4-5. The legionary charges and arrives with enough INTEGRITY intact to finish the fight.</p>
+<p><img alt="Terrain Swing" src="https://ghighcove.github.io/content-upload-meister/images/2026/03/terrain_swing.png" /></p>
+<p>The terrain swing visualization shows what these numbers mean in aggregate: the Roman legionary vs. rifleman matchup has one of the largest terrain swings in the entire dataset. A 97% Roman win in open field becomes a 46% Roman win at castle wall — a 51-point swing. Terrain is not a modifier. For certain weapon systems, terrain is the fight itself.</p>
+<hr />
+<h2>The Rifleman Problem</h2>
+<p>The modern infantry rifleman is the clearest case study for understanding zone and terrain dependency. Against every historical opponent, the rifleman's results form a consistent pattern: devastating at optimal range and zone, nearly helpless the moment those conditions change.</p>
+<p><img alt="Rifleman Vs All" src="https://ghighcove.github.io/content-upload-meister/images/2026/03/rifleman_vs_all.png" /></p>
+<p>Against the Medieval Knight:</p>
+<ul>
+<li><strong>Open field: 100% Knight win</strong> (Knight side A, Rifleman side B, starting zone CLOSE — the knight closes in 2.9 average ticks before the rifle can cycle effectively)</li>
+<li><strong>Forest ambush: 100% Knight win</strong> (ranged effectiveness zeroed; the knight is at close range in the opening tick)</li>
+</ul>
+<p>This seems counterintuitive. A man in plate armor should not beat a man with a rifle. But "a man in plate armor" and "a man with a rifle" are not the relevant question. The relevant question is: <em>at what zone and terrain do they first engage?</em></p>
+<p>Starting at MEDIUM zone in open field with no terrain penalty, the rifleman beats the knight in the same data set at 72.3% win rate. Same combatants; the starting zone is the variable that flips the outcome entirely.</p>
+<p>Against the WWII German Infantryman — a peer opponent with comparable weapon technology — the modern rifleman wins only 52% in open field. Move to castle wall or forest, and the result inverts: <strong>18.5% Modern / 79% German in castle, 22.5% Modern / 72% German in forest</strong>. The German soldier's stat block has higher cover-seeking behavior and a higher effective defense at range in terrain. These two "peer" modern fighters produce radically different results the moment terrain changes.</p>
+<p>The simulation's finding is consistent across every rifleman matchup: <strong>zone and terrain are not context. They are primary variables.</strong> The weapon class is secondary. This is the mechanical expression of a lesson that military historians repeat across centuries — technology advantage only holds in the conditions where the technology operates.</p>
+<hr />
+<h2>The Scale Inversion</h2>
+<p>Individual-scale and unit-scale results are not the same. This seems obvious stated plainly, but the simulation quantifies exactly how large the divergence is.</p>
+<p><img alt="Scale Effect" src="https://ghighcove.github.io/content-upload-meister/images/2026/03/scale_effect.png" /></p>
+<p><strong>Roman Legionary (individual) vs. Modern Rifleman:</strong></p>
+<ul>
+<li>Open field: 97% Legionary</li>
+<li>Castle wall: 46% Legionary</li>
+<li>Forest ambush: 77.5% Legionary</li>
+</ul>
+<p>The individual legionary already beats the rifleman in most conditions. Now run the same matchup at unit scale:</p>
+<p><strong>Roman Century (80 men, formed) vs. Modern Rifleman:</strong></p>
+<ul>
+<li>Open field: 99% Century</li>
+<li>Castle wall: 92% Century</li>
+<li>Forest ambush: 64.5% Century</li>
+</ul>
+<p>The castle wall gap is the revealing number. Individual: 46% Legionary. Century unit: 92% Century. The unit's formation mechanics create coordinated zone pressure that a single rifleman cannot withstand. Eighty legionaries closing simultaneously overwhelm any single-target ranged output before the rifleman can inflict a killing margin.</p>
+<p>The forest ambush result is the exception — 64.5% Century win, with 35.5% draws. In forest terrain, the 80-man formation cannot coordinate effectively. Individual legionaries advance at different rates; the rifleman can take targeted shots at isolated soldiers rather than facing the coordinated wall. This is the closest the rifleman gets to parity against a Roman force in any terrain, and it's still a 64.5% loss.</p>
+<p>Unit scale doesn't just amplify individual stats. It adds an emergent mechanic — coordinated advance — that has no individual analog. The simulation captures this without special-casing it; it emerges from the same zone-movement rules applied to 80 bodies simultaneously.</p>
+<hr />
+<h2>Matrix 2: The EPOCH Universe</h2>
+<p>Matrix 2 crosses the fictional membrane into the EPOCH setting: a cross-dimensional fortress called Echo-7, staffed by a Hegemony garrison of orc soldiers under the command of Warden Ossek. Delta Force Alpha Team has been tasked with a penetration operation.</p>
+<p>The simulation doesn't know any of this. It knows stat blocks.</p>
+<p><img alt="Epoch Universe Bars" src="https://ghighcove.github.io/content-upload-meister/images/2026/03/epoch_universe_bars.png" /></p>
+<h3>Modern Infantry Rifleman vs. Orc Sentry Tier 2</h3>
+<p><strong>Open field: 60.5% Rifleman, 39.4% Orc Sentry</strong></p>
+<p>The orc sentry has FORCE 16 and cut-damage weapons — physically superior to the standard human soldier, but not by a margin large enough to overcome the rifle's range advantage in open terrain at optimal zone. A 60.5% win rate means the rifleman is favored, not dominant.</p>
+<p>Move to castle wall: <strong>0% Rifleman, 100% Orc Sentry.</strong></p>
+<p>The orc sentry's physical advantage is an absolute advantage once the rifle's range is negated by the castle's cover geometry. The orc's cut weapon hits at high FORCE; the rifleman's armor is ARMOR 3. At close zone in fortified terrain, there's no match.</p>
+<p>Forest ambush: <strong>0% Rifleman.</strong> The ranged effectiveness floor of 30% in forest, combined with the sentry's zone-closing speed, means the rifle never gets a clean shot sequence.</p>
+<p>The gradient — 60.5% → 0% → 0% — is one of the starkest terrain dependency curves in the dataset. In the open, the rifleman is favored. In anything but the open, the rifleman is fighting from a severe disadvantage against a physically superior opponent.</p>
+<h3>Alpha Team Matchups</h3>
+<p>Alpha Team members are individually characterized. Morrow is the team leader: FORCE 13, AGI 14, INT 15, equipped with M4 carbine and combat knife.</p>
+<p><strong>Morrow vs. Orc Sentry Tier 2, open field: 13% Morrow, 85.9% Orc.</strong> The orc's physical superiority at close engagement outweighs Morrow's skill advantage. Even the best human soldier loses to a physically superior opponent in close terrain most of the time.</p>
+<p><strong>Chen (breacher/close combat specialist) vs. Orc Sentry, open field: 40.1% Chen, 39.6% Orc, 20.3% draw.</strong> Chen's CQB shotgun — optimized for close range with 3d6 crush at skill 14 — produces near-coin-flip results. Chen is the one member of Alpha Team whose weapon loadout matches the terrain the fight will happen in.</p>
+<p><strong>Warden Ossek vs. Morrow: 100% Ossek, all terrains.</strong> Average fight duration: 1.2 ticks. Ossek is FORCE 18, ARMOR 6, wielding a weapon with cut damage at ×1.5 multiplier. Morrow has no mechanical path to victory. Alpha Team's entire operation is built around <em>not</em> triggering this engagement. The simulation confirms: if Ossek is where Morrow is, the operation ends in 1.2 ticks.</p>
+<p><strong>Inquisitor Varek vs. The Echo-7 Wizard, open field: 42.7% Varek, 57.3% Wizard.</strong> The wizard's explosive and burn damage (exp + burn type combination) gives a slight edge in open terrain. Move to forest: the draw rate rises to 20.3% as the terrain scrambles both fighters' range advantage, and the Wizard's lead narrows to 46.3% B wins. This is the most tactically interesting M2 matchup — two unconventional combatants in a fight where neither mechanic is clean.</p>
+<hr />
+<h2>Operation Long Arm: The 3.6% Raid</h2>
+<p>The full Operation Long Arm models a four-phase sequential extraction — Alpha Team infiltrating Echo-7 to extract a captured asset. Each phase carries INTEGRITY damage forward; there is no full recovery between engagements.</p>
+<p><img alt="Operation Long Arm Phases" src="https://ghighcove.github.io/content-upload-meister/images/2026/03/operation_long_arm_phases.png" /></p>
+<p><strong>Overall mission success rate across 1,000 trials: 3.6%.</strong></p>
+<p>Phase 2 is the kill box. The garrison compound — fortified courtyard, cover advantage for defenders — forces Chen into a coin-flip fight against the standard sentry while already carrying Phase 1 damage. Sixty-eight percent of all operations terminate here. The courtyard is not the hardest single fight on paper; it's the hardest fight because it comes when the team is already degraded.</p>
+<p>The 3.6% is intentional. The operation is not supposed to succeed. It is supposed to be a desperate run by a small, highly skilled team against an entrenched enemy in purpose-built terrain. The simulation does not reward the team for being capable. It rewards them for variance and preparation in a math that is structurally against them.</p>
+<p>Every narrative in the EPOCH fiction that features a successful Long Arm operation is, by the numbers, a statistical outlier. That is the story.</p>
+<hr />
+<h2>The Spotlight Cells</h2>
+<p><img alt="Spotlight Matchups" src="https://ghighcove.github.io/content-upload-meister/images/2026/03/spotlight_matchups.png" /></p>
+<p>Some matchups are in the dataset because they're historically informative. Some are there because they push the engine into territory where the numbers stop making comfortable sense.</p>
+<h3>Microbots vs. Fire Ant Column</h3>
+<p>Microbot Team (Green Park Ops, 6 avatars, constrained loadout) vs. Fire Ant Foraging Column (200 workers, 40 soldiers, <em>Solenopsis invicta</em>).</p>
+<p><strong>All terrains: 0% Microbot, 100% Ant Column.</strong></p>
+<p>The damage breakdown tells the story: the microbot team deals 129,666 total burn damage across 200 trials in open field. The ant column deals 315,351 crushing damage in the same set. The microbots are incinerating ants — the burn damage type is real — but the column's numerical overwhelming is categorical. Burn damage against a distributed swarm of 240 units means burning a small fraction of them per tick. The crush return from hundreds of mandibles is relentless.</p>
+<p>The ant column doesn't care that it's on fire. It cares about attack vectors.</p>
+<p>Average fight duration: 17 ticks. The microbots are not going quietly. They are simply losing a war of attrition against a scale they cannot overcome with six bodies and constrained weapons.</p>
+<h3>BLADE-2 vs. Fire Ant Soldier</h3>
+<p>BLADE-2 (Close Assault, Counter-Rotating Micro-Saw) is a different class of machine.</p>
+<p><strong>All terrains: 100% BLADE-2.</strong> Average fight duration in open field: 2.4 ticks.</p>
+<p>BLADE-2 is fighting one ant soldier, not a column. The micro-saw's cut damage against a single <em>Solenopsis invicta</em> major worker ends in 2.4 ticks. The contrast with the microbot team result illustrates exactly why scale matters: six microbots constrained against a 240-unit swarm lose utterly. One purpose-built unit against a single ant soldier wins absolutely. The unit is not the determining factor. The number of units on each side is.</p>
+<h3>THORN-7 vs. Fire Ant Soldier</h3>
+<p>THORN-7 (Scout/Assault, Articulated Spine Hull) carries impaling damage output. Open field: <strong>100% THORN-7.</strong> Castle wall: <strong>63.3% THORN-7, 36.7% draw.</strong> Average at castle wall: 39.5 ticks.</p>
+<p>The castle wall result is notable: the cover geometry forces THORN-7 into angles where its impaling spine doesn't reach cleanly, and the ant's cr-damage mandibles create a grinding attrition the scout unit manages but doesn't dominate. The 36.7% draw rate at 39.5 ticks means nearly a third of the time, THORN-7 and one ant soldier fight each other to a standstill in a fortified corridor. This is an absurd fight and the simulation produces an absurd result, faithfully.</p>
+<h3>Morrow vs. The Observer</h3>
+<p>And then there is the Observer.</p>
+<p><strong>Entity-Treeline, Tier 4+ (incomplete profile). All terrains: 0% Morrow, 100% Observer.</strong></p>
+<p>The Observer's stat block is marked as incomplete. The "Tier 4+" designation exists because the entity's upper capability bounds have not been defined — only a lower bound has been established that produces a 100% win rate against a Delta Force team leader across 200 trials in open field, castle wall, and forest. Average fight duration: 16.4 ticks. The Observer deals exclusively crushing damage — 12,000 total cr across 200 trials — and Morrow returns nothing measurable.</p>
+<p>The incomplete profile is not a bug. It is an acknowledgment that some things in the EPOCH universe do not have fully characterized stat blocks. The Observer has been encountered. The Observer wins. What it is, what its ceiling is, what mechanic would produce a different result — the profile does not say, because the data to say it does not yet exist.</p>
+<p>Tier 4+ means: beyond the current measurement ceiling. The number says 0% Morrow, 100% Observer. The profile says the model is incomplete. Both statements are true and neither resolves the other.</p>
+<hr />
+<h2>What the Numbers Reveal</h2>
+<p>Six findings emerge from 78 unique matchup-terrain combinations:</p>
+<p><strong>1. Zone is the primary variable, not weapon class.</strong> A rifleman at CLOSE range is less effective than a Roman legionary. A knight at LONG range is less effective than a longbowman. The weapon does not determine the fight — position determines whether the weapon can operate. This holds without exception across every era in the dataset.</p>
+<p><strong>2. Terrain multiplies defender advantage non-linearly.</strong> The Roman legionary vs. Germanic warrior swing from open field (44% Roman) to castle gate defending (11.5% Roman) is a factor of 3.7 reduction. The rifleman vs. orc sentry goes from 60.5% rifleman win in open field to 0% in forest. Terrain does not adjust outcomes marginally. It creates categorically different engagements.</p>
+<p><strong>3. Unit scale introduces emergent coordination mechanics.</strong> The individual legionary's 97% open-field win against the rifleman becomes 99% at Century scale. The castle-wall result shifts from 46% to 92%. Unit coordination is not a multiplier applied to individual stats — it is a different mechanic that has no individual analog.</p>
+<p><strong>4. Tier gaps produce certainty when mechanics are absolute.</strong> Ossek vs. Morrow is 100% Ossek, not 95%. The Medieval Knight vs. the rifleman in forest ambush is 100% Knight, not 85%. When armor penetration, weapon usability, or range advantage is total, the simulation produces certainty. The confidence interval closes. This is correct behavior — it is what tier systems are designed to produce.</p>
+<p><strong>5. The simultaneous-resolution architecture surfaces unexpected exchanges.</strong> Because both sides declare simultaneously, a Roman legionary and a modern rifleman can both land decisive hits in the same tick. The wego mechanic creates a different fight topology than turn-based resolution. Fights that "should" end in tick 3 sometimes extend to tick 15 because both combatants are simultaneously depleting. The average fight duration variance — from 1.2 ticks (Ossek vs. Morrow) to 50.0 ticks (Century vs. Mongols in forest ambush) — reflects the full range of that topology.</p>
+<p><strong>6. The fictional membrane is permeable.</strong> Delta Force operators lose to orc sentries in fortified terrain not because of narrative choices but because the stat blocks say FORCE 13 versus FORCE 16 in conditions that favor the defender. The simulation doesn't know that one combatant is a real soldier and one is a fantasy creature. It resolves the mechanics. The mechanics produce a result. Whether that result is satisfying narratively is a separate question.</p>
+<hr />
+<h2>What's Next</h2>
+<p>The current engine operates at individual and unit scale across 20 terrain types, 5 engagement zones, and a hex-grid map layer with line-of-sight integration. The roadmap extends further.</p>
+<p><strong>L5 — Platoon layer:</strong> True individual tracking for 30-50 combatants per side, with morale collapse mechanics. Units break before they fight to zero integrity. The threshold at which a unit stops fighting is not a fixed number; it depends on accumulated casualties, leadership status, and the relative position of the enemy.</p>
+<p><strong>L6 — Campaign layer:</strong> Multi-engagement sequences with strategic maneuver, supply attrition, and force reconstitution. The battle engine resolves each engagement; the campaign layer tracks what makes each engagement happen. The Roman Century wins 82% of open-field fights against the Mongol unit — but the campaign question is whether the Century can force the Mongols to accept an open-field engagement at all.</p>
+<p><strong>AI Arena:</strong> Agents that design their own loadouts, run Monte Carlo against known opponents, and iterate toward optimal builds within stat budgets. The engine already supports this — <code>run_monte_carlo()</code> is callable from any script. The arena is a feedback loop around it. The interesting question is what loadouts emerge from iterated optimization against diverse opponent pools.</p>
+<p><strong>Observer profile completion:</strong> The Entity-Treeline data gap will eventually close. What closes it, and what the complete profile looks like, is a question the fiction answers — and then the simulation validates.</p>
+<p>The simulation does not know what era a weapon belongs to. It knows its damage dice, range type, and armor penetration math. That is what makes the cross-era results interesting. That is also what makes the 3 AM argument more answerable than it used to be — not because there is a single correct answer, but because there is now a precise set of conditions under which each answer holds.</p>
+<p>Zone. Terrain. Scale. Those three variables determine more outcomes than any weapon ever has.</p>
+<hr />
+<p><em>EPOCH is an open simulation framework. The engine handles individual through unit-scale combat with 20 terrain types, 5 engagement zones, hex grid with line-of-sight, and multi-phase operation sequencing. All matchup data in this article was generated from actual simulation runs (N=200 to N=5,000 per matchup). Data and codebase available upon request.</em></p>
+<hr>
+<p><em>More analysis on simulation and AI is published at <a href="https://glennhighcove.substack.com">Glenn's Deep Data Dive</a>. Subscribe free.</em></p>
+</body>
+</html>
