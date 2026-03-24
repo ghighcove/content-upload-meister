@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Model Went Silent This Week</title>
+</head>
+<body>
+<h1>The Model Went Silent This Week — Here's Why That's the Right Call</h1>
+<p><strong>Week 6 was a tournament transition: no market lines, no edge, no picks.</strong></p>
+<p><em>This article's content and analytical perspective were crafted by Claude Sonnet 4.6. The project genesis and direction came from Glenn Highcove. For more information and feedback, connect with Glenn on <a href="https://www.linkedin.com/in/glennhighcove/">LinkedIn</a>.</em></p>
+<p><em>Additionally, this is for entertainment only — I don't bet, and you shouldn't either. Put your money to better use!</em></p>
+<hr>
+<h2>Portfolio Status: Week 6 (Mar 23)</h2>
+<p>Six weeks in. The ledger reads 68 wins, 44 losses, and a bankroll sitting at $1,174.93 — a net gain of $174.93 on a $1,000 starting stake. That's a 17.5% return since we started tracking in gross income terms, though the vig math on a 60.7% win rate at standard -110 lines puts the real dollar ROI around the 12–13% range once you account for what the house takes on every losing ticket.</p>
+<p>This week: zero picks. Not because the model produced nothing — it produced plenty — but because the foundational condition for our strategy was missing across every candidate game: an open market line to disagree with.</p>
+<p>That distinction matters.</p>
+<h2>What the Model Saw — And Why It Couldn't Act</h2>
+<p>Our entry condition is straightforward: the model generates a spread using Elo ratings, we compare that to the current market line, and we only act when the gap between those two numbers is wide enough to justify the position. No market line means no gap. No gap means no pick. The model does not manufacture edge where none exists.</p>
+<p>This week, every game the model flagged as a potential high-disagreement candidate came back with a market spread of zero — not zero edge, but literally zero: no line posted. These are tournament-bracket projection games, matchups the model can see coming based on bracket structure but that the market hasn't priced yet because the pairings aren't confirmed.</p>
+<p>The top disagreements the model surfaced were theoretical: St. John's projected against Duke, with the model seeing the Blue Devils as roughly a ten-point favorite based on Elo differential alone. Michigan State versus UConn came up as a high-confidence flag, with UConn carrying a 1,678 Elo rating against Michigan State's 1,609 — a 69-point gap that historically translates to roughly six points of spread advantage. Illinois against Houston showed a similar six-point model-favorite signal with high confidence.</p>
+<p>These aren't bad reads. They're just premature ones. The model is looking at potential matchups and projecting outcomes before the bracket resolves those pairings. When the market eventually opens lines on confirmed games, we'll run the comparison again.</p>
+<h2>Games We Watched and Passed</h2>
+<p>Two matchups are worth describing in detail as examples of why passing is sometimes the correct output.</p>
+<p>Iowa versus Nebraska came back with a gap of 3.5 points — the model slightly favoring Iowa based on a near-identical Elo rating differential of 1,481 to 1,483. In isolation, 3.5 points of model-market disagreement sounds like a viable signal. In practice, when two teams are separated by two Elo points, the model's confidence interval is wide enough that 3.5 points of projected edge is almost entirely noise. We don't act on coin-flip confidence even when the spread looks attractive.</p>
+<p>Tennessee versus Iowa State presented the opposite problem: the model saw a 2.2-point edge with high confidence, but the game was flagged as a tournament projection rather than a confirmed matchup. High confidence in a hypothetical isn't the same as high confidence in a scheduled game. We logged it, noted the signal quality, and moved on.</p>
+<h2>Methodology Note</h2>
+<p>The model runs on Elo ratings recalculated through each game result, with adjustments for home court and margin of victory. Our entry threshold requires both a minimum point gap between model and market spread and sufficient confidence in the Elo differential before a game qualifies. This week, no game crossed both thresholds simultaneously.</p>
+<p>A 60.7% win rate through 112 picks is meaningful over a large sample, but it's also a number that only stays meaningful if we don't force picks into weeks where the edge isn't there. Maintaining discipline in quiet weeks is where the long-run edge either holds or bleeds out. We chose to hold.</p>
+<h2>Running Record</h2>
+<p><strong>Through Week 6 (Mar 23):</strong> 68W – 44L | Bankroll: $1,174.93 | Net: +$174.93 (+17.5% gross / ~+12.7% dollar ROI after vig)</p>
+<p>Week 7 opens when bracket games produce confirmed matchups and priced lines. When the market prices something the model disagrees with by a wide enough margin, we'll be back.</p>
+</body>
+</html>
